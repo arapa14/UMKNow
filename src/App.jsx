@@ -4,12 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import Testing from "./pages/Testing";
 import Landing from "./pages/Landing";
 import Login from "./pages/auth/Login";
-// import Register from "./pages/Register";
-// import Dashboard from "./pages/Dashboard";
-// import POS from "./pages/POS";
-// import Inventory from "./pages/Inventory";
-// import Catalog from "./pages/Catalog";
-// import Bookkeeping from "./pages/Bookkeeping";
+import Register from "./pages/auth/Register";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
@@ -17,7 +13,8 @@ export default function App() {
       {/* ============ PUBLIC ROUTES ============ */}
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
-      {/* <Route path="/register" element={<Register />} /> */}
+      <Route path="/register" element={<Register />} />
+      <Route path="/not-found" element={<NotFound />} />
 
       {/* ============ TESTING ROUTE (untuk dev) ============ */}
       <Route path="/testing" element={<Testing />} />
@@ -31,7 +28,7 @@ export default function App() {
       <Route path="/bookkeeping" element={<Bookkeeping />} /> */}
 
       {/* ============ 404 ============ */}
-      {/* <Route path="*" element={<NotFound />} /> */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

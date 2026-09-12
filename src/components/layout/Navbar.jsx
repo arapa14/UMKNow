@@ -45,7 +45,7 @@ export default function Navbar() {
         <a href="/login" onClick={closeMenu} className="site-navbar-signin">
           Masuk
         </a>
-        <a className="site-navbar-cta" href="/login" onClick={closeMenu}>
+        <a className="site-navbar-cta" href="/register" onClick={closeMenu}>
           Mulai gratis →
         </a>
       </nav>

@@ -9,7 +9,7 @@ const features = [
     label: "Kasir Pintar",
     tag: "POS",
     headline: "Catat transaksi secepat pelanggan memesan.",
-    body: "Pilih produk, hitung total, cetak atau kirim struk — selesai dalam hitungan detik. Tidak perlu mesin kasir mahal.",
+    body: "Pilih produk, hitung total, cetak atau kirim struk selesai dalam hitungan detik. Tidak perlu mesin kasir mahal.",
     accent: "#0b5d61",
     accentLight: "rgba(11,93,97,0.08)",
     icon: (
@@ -93,7 +93,7 @@ const steps = [
   {
     n: "03",
     title: "Mulai transaksi",
-    desc: "Langsung proses penjualan via kasir — di HP manapun.",
+    desc: "Langsung proses penjualan via kasir di HP manapun.",
   },
   {
     n: "04",
@@ -151,7 +151,7 @@ export default function Landing() {
                 Cukup pakai HP, langsung pakai hari ini.
               </p>
               <div className="lp-hero-actions reveal reveal-delay-3">
-                <a className="lp-btn lp-btn-amber" href="/login" id="hero-cta-primary">
+                <a className="lp-btn lp-btn-amber" href="/register" id="hero-cta-primary">
                   Mulai gratis sekarang
                 </a>
                 <a className="lp-btn lp-btn-ghost" href="#cara-kerja" id="hero-cta-secondary">
@@ -229,9 +229,9 @@ export default function Landing() {
                 tanpa proses yang rumit.
               </h2>
               <p className="lp-howitworks-copy">
-                Setup UMKNow tidak memerlukan pengetahuan teknis. Siapkan data toko dan produk — sisanya kami yang urus.
+                Setup UMKNow tidak memerlukan pengetahuan teknis. Cukup siapkan data toko dan produk, sisanya kami yang urus.
               </p>
-              <a className="lp-btn lp-btn-amber" href="/login" id="steps-cta" style={{ marginTop: "28px", alignSelf: "flex-start" }}>
+              <a className="lp-btn lp-btn-amber" href="/register" id="steps-cta" style={{ marginTop: "28px", alignSelf: "flex-start" }}>
                 Daftar dan coba sekarang
               </a>
             </div>
@@ -268,7 +268,7 @@ export default function Landing() {
               </p>
             </div>
             <div className="lp-cta-actions reveal reveal-delay-1">
-              <a className="lp-btn lp-btn-amber lp-btn-lg" href="/login" id="cta-final">
+              <a className="lp-btn lp-btn-amber lp-btn-lg" href="/register" id="cta-final">
                 Buat akun toko gratis
               </a>
               <p className="lp-cta-note">Cukup pakai HP, langsung bisa dipakai.</p>
