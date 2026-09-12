@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const links = [
   { label: "Fitur", href: "#fitur" },
@@ -18,164 +18,77 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={`site-navbar${scrolled ? " is-scrolled" : ""}`}>
-      <style>{styles}</style>
-      <a className="site-navbar-brand" href="#top" onClick={closeMenu}>
-        <span className="site-navbar-brand-u">UMK</span>Now
+    <header
+      className={`sticky top-0 z-[100] flex min-h-[68px] items-center justify-between gap-6 bg-[rgba(7,59,63,0.96)] px-[max(24px,calc((100vw_-_1120px)_/_2))] py-3 text-white backdrop-blur-[12px] transition-[box-shadow,background] duration-300 ease-[ease] ${
+        scrolled
+          ? "bg-[rgba(7,59,63,0.99)] shadow-[0_1px_0_rgba(255,255,255,0.06),0_8px_32px_rgba(0,0,0,0.22)]"
+          : ""
+      }`}
+    >
+      <a
+        className="font-display text-xl font-extrabold tracking-[-0.01em] text-white no-underline"
+        href="#top"
+        onClick={closeMenu}
+      >
+        <span className="text-amber-500">UMK</span>Now
       </a>
 
       <button
         aria-expanded={isOpen}
         aria-label="Buka menu navigasi"
-        className="site-navbar-toggle"
-        onClick={() => setIsOpen((c) => !c)}
+        className="hidden rounded-lg border border-white/25 bg-transparent px-3 py-[9px] text-white max-[720px]:flex max-[720px]:items-center"
+        onClick={() => setIsOpen((current) => !current)}
         type="button"
       >
-        <span className={`hamburger${isOpen ? " is-open" : ""}`}>
-          <span /><span /><span />
+        <span className="flex w-[18px] flex-col gap-1">
+          <span
+            className={`block h-[2px] w-full rounded-[2px] bg-white transition-[translate,rotate,opacity] duration-[250ms] ease-[ease] ${
+              isOpen ? "translate-y-1.5 rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`block h-[2px] w-full rounded-[2px] bg-white transition-[translate,rotate,opacity] duration-[250ms] ease-[ease] ${
+              isOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`block h-[2px] w-full rounded-[2px] bg-white transition-[translate,rotate,opacity] duration-[250ms] ease-[ease] ${
+              isOpen ? "-translate-y-1.5 -rotate-45" : ""
+            }`}
+          />
         </span>
       </button>
 
-      <nav className={`site-navbar-links${isOpen ? " is-open" : ""}`}>
+      <nav
+        className={`flex items-center gap-1 max-[720px]:absolute max-[720px]:top-[68px] max-[720px]:right-0 max-[720px]:left-0 max-[720px]:flex-col max-[720px]:border-t max-[720px]:border-white/[0.08] max-[720px]:bg-[#052e31] max-[720px]:px-6 max-[720px]:pt-4 max-[720px]:pb-6 ${
+          isOpen ? "max-[720px]:flex" : "max-[720px]:hidden"
+        }`}
+      >
         {links.map((link) => (
-          <a href={link.href} key={link.href} onClick={closeMenu}>
+          <a
+            className="rounded-lg px-[14px] py-2 font-sans text-[0.9rem] font-medium text-white/[0.82] no-underline transition-[color,background] duration-200 ease-[ease] hover:bg-white/[0.1] hover:text-white max-[720px]:w-full"
+            href={link.href}
+            key={link.href}
+            onClick={closeMenu}
+          >
             {link.label}
           </a>
         ))}
-        <a href="/login" onClick={closeMenu} className="site-navbar-signin">
+        <a
+          className="rounded-lg px-[14px] py-2 font-sans text-[0.9rem] font-medium text-white/[0.7] no-underline transition-[color,background] duration-200 ease-[ease] hover:bg-white/[0.1] hover:text-white max-[720px]:w-full"
+          href="/login"
+          onClick={closeMenu}
+        >
           Masuk
         </a>
-        <a className="site-navbar-cta" href="/register" onClick={closeMenu}>
+        <a
+          className="ml-2 rounded-lg bg-amber-500 px-[14px] py-2 font-sans text-[0.9rem] font-bold text-[#1a2e2f] no-underline [transition:background_0.2s_ease,translate_0.15s_ease] hover:-translate-y-px hover:bg-amber-400 max-[720px]:mt-2 max-[720px]:ml-0 max-[720px]:w-full"
+          href="/register"
+          onClick={closeMenu}
+        >
           Mulai gratis →
         </a>
       </nav>
     </header>
   );
 }
-
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
-
-  .site-navbar {
-    align-items: center;
-    background: rgba(7, 59, 63, 0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #fff;
-    display: flex;
-    gap: 24px;
-    justify-content: space-between;
-    min-height: 68px;
-    padding: 12px max(24px, calc((100vw - 1120px) / 2));
-    position: sticky;
-    top: 0;
-    transition: box-shadow 0.3s ease, background 0.3s ease;
-    z-index: 100;
-  }
-
-  .site-navbar.is-scrolled {
-    background: rgba(7, 59, 63, 0.99);
-    box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.22);
-  }
-
-  .site-navbar-brand {
-    color: #fff;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-  }
-
-  .site-navbar-brand-u {
-    color: #f59e0b;
-  }
-
-  .site-navbar-links {
-    align-items: center;
-    display: flex;
-    gap: 4px;
-  }
-
-  .site-navbar-links a {
-    border-radius: 8px;
-    color: rgba(255, 255, 255, 0.82);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 8px 14px;
-    text-decoration: none;
-    transition: color 0.2s, background 0.2s;
-  }
-
-  .site-navbar-links a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-
-  .site-navbar-signin {
-    color: rgba(255,255,255,0.7) !important;
-  }
-
-  .site-navbar-cta {
-    background: #f59e0b !important;
-    color: #1a2e2f !important;
-    font-weight: 700 !important;
-    margin-left: 8px;
-    transition: background 0.2s, transform 0.15s !important;
-  }
-
-  .site-navbar-cta:hover {
-    background: #fbbf24 !important;
-    transform: translateY(-1px);
-  }
-
-  .site-navbar-toggle {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
-    color: #fff;
-    display: none;
-    padding: 9px 12px;
-  }
-
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    width: 18px;
-  }
-
-  .hamburger span {
-    background: #fff;
-    border-radius: 2px;
-    display: block;
-    height: 2px;
-    transition: transform 0.25s, opacity 0.25s;
-    width: 100%;
-  }
-
-  .hamburger.is-open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-  .hamburger.is-open span:nth-child(2) { opacity: 0; }
-  .hamburger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-  @media (max-width: 720px) {
-    .site-navbar-toggle { display: flex; align-items: center; }
-
-    .site-navbar-links {
-      background: #052e31;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      display: none;
-      flex-direction: column;
-      left: 0;
-      padding: 16px 24px 24px;
-      position: absolute;
-      right: 0;
-      top: 68px;
-    }
-
-    .site-navbar-links.is-open { display: flex; }
-    .site-navbar-links a { width: 100%; }
-    .site-navbar-cta { margin-left: 0 !important; margin-top: 8px; }
-  }
-`;

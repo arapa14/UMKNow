@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import Footer from "../components/layout/Footer";
 import Navbar from "../components/layout/Navbar";
 
-/* ─── Data ───────────────────────────────────────────────── */
 const features = [
   {
     id: "pos",
@@ -14,10 +13,10 @@ const features = [
     accentLight: "rgba(11,93,97,0.08)",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="1.8"/>
-        <path d="M8 14h12M8 18h7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-        <path d="M8 10h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-        <circle cx="19" cy="10" r="2.5" fill="currentColor" opacity=".3"/>
+        <rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M8 14h12M8 18h7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M8 10h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="19" cy="10" r="2.5" fill="currentColor" opacity=".3" />
       </svg>
     ),
   },
@@ -31,10 +30,10 @@ const features = [
     accentLight: "rgba(124,58,237,0.08)",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="4" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8"/>
-        <rect x="15" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8"/>
-        <rect x="4" y="15" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8"/>
-        <path d="M15 19.5h9M19.5 15v9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        <rect x="4" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8" />
+        <rect x="15" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8" />
+        <rect x="4" y="15" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M15 19.5h9M19.5 15v9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -48,8 +47,8 @@ const features = [
     accentLight: "rgba(13,148,136,0.08)",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.8"/>
-        <path d="M14 4c-3 4-3 16 0 20M14 4c3 4 3 16 0 20M4 14h20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        <circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M14 4c-3 4-3 16 0 20M14 4c3 4 3 16 0 20M4 14h20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -63,43 +62,27 @@ const features = [
     accentLight: "rgba(180,83,9,0.08)",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="4" y="3" width="16" height="22" rx="2" stroke="currentColor" strokeWidth="1.8"/>
-        <path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-        <circle cx="21" cy="21" r="5" fill="currentColor" opacity=".15" stroke="currentColor" strokeWidth="1.8"/>
-        <path d="M19.5 21h3M21 19.5v3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        <rect x="4" y="3" width="16" height="22" rx="2" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        <circle cx="21" cy="21" r="5" fill="currentColor" opacity=".15" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M19.5 21h3M21 19.5v3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     ),
   },
 ];
 
 const pillModules = [
-  { label: "Kasir Pintar", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="2"/><path d="M8 14h12M8 18h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
-  { label: "Manajemen Stok", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2"/><rect x="15" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2"/><rect x="4" y="15" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M15 19.5h9M19.5 15v9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
-  { label: "Katalog Online", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="2"/><path d="M4 14h20M14 4c-3 4-3 16 0 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
-  { label: "Pembukuan", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="4" y="3" width="16" height="22" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { label: "Kasir Pintar", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="3" stroke="currentColor" strokeWidth="2" /><path d="M8 14h12M8 18h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg> },
+  { label: "Manajemen Stok", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2" /><rect x="15" y="4" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2" /><rect x="4" y="15" width="9" height="9" rx="2" stroke="currentColor" strokeWidth="2" /><path d="M15 19.5h9M19.5 15v9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg> },
+  { label: "Katalog Online", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="2" /><path d="M4 14h20M14 4c-3 4-3 16 0 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg> },
+  { label: "Pembukuan", icon: <svg width="14" height="14" viewBox="0 0 28 28" fill="none"><rect x="4" y="3" width="16" height="22" rx="2" stroke="currentColor" strokeWidth="2" /><path d="M8 9h8M8 13h6M8 17h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg> },
 ];
 
 const steps = [
-  {
-    n: "01",
-    title: "Daftarkan toko",
-    desc: "Buat akun dan isi profil toko dalam satu menit.",
-  },
-  {
-    n: "02",
-    title: "Masukkan produk",
-    desc: "Tambah daftar produk beserta harga dan stok awal.",
-  },
-  {
-    n: "03",
-    title: "Mulai transaksi",
-    desc: "Langsung proses penjualan via kasir di HP manapun.",
-  },
-  {
-    n: "04",
-    title: "Pantau laporan",
-    desc: "Lihat ringkasan omzet dan stok kapan pun kamu mau.",
-  },
+  { n: "01", title: "Daftarkan toko", desc: "Buat akun dan isi profil toko dalam satu menit." },
+  { n: "02", title: "Masukkan produk", desc: "Tambah daftar produk beserta harga dan stok awal." },
+  { n: "03", title: "Mulai transaksi", desc: "Langsung proses penjualan via kasir di HP manapun." },
+  { n: "04", title: "Pantau laporan", desc: "Lihat ringkasan omzet dan stok kapan pun kamu mau." },
 ];
 
 const stats = [
@@ -108,7 +91,14 @@ const stats = [
   { value: "100%", label: "Berbasis web, cukup HP" },
 ];
 
-/* ─── Component ──────────────────────────────────────────── */
+const revealState = "opacity-0 translate-y-6 data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100";
+const reveal = `${revealState} transition-[opacity,translate] duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)]`;
+const revealDelays = ["", "delay-100", "delay-200"];
+const container = "mx-auto w-[min(1120px,calc(100%_-_48px))] max-[600px]:w-[min(1120px,calc(100%_-_32px))]";
+const heading = "m-0 max-w-[820px] font-display font-extrabold leading-[1.06] tracking-[-0.03em]";
+const button = "inline-flex min-h-[46px] items-center justify-center gap-1.5 rounded-[10px] border-0 px-[22px] font-display text-[0.95rem] font-bold whitespace-nowrap no-underline transition-[translate,box-shadow,background] duration-[180ms] ease-[ease] hover:-translate-y-0.5 active:translate-y-0";
+const amberButton = "bg-amber-500 text-[#0f2526] shadow-[0_2px_16px_rgba(245,158,11,0.3)] hover:bg-amber-400 hover:shadow-[0_4px_24px_rgba(245,158,11,0.4)]";
+
 export default function Landing() {
   const observerRef = useRef(null);
 
@@ -117,58 +107,60 @@ export default function Landing() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            entry.target.dataset.visible = "true";
           }
         });
       },
       { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
     );
 
-    document.querySelectorAll(".reveal").forEach((el) =>
-      observerRef.current.observe(el)
+    document.querySelectorAll("[data-reveal]").forEach((element) =>
+      observerRef.current.observe(element)
     );
 
     return () => observerRef.current?.disconnect();
   }, []);
 
   return (
-    <div className="lp" id="top">
-      <style>{css}</style>
+    <div className="bg-white font-sans text-[#0f2526] antialiased" id="top">
       <Navbar />
 
       <main>
-        {/* ── HERO ─────────────────────────────────── */}
-        <section className="lp-hero">
-          <div className="lp-container lp-hero-body">
-            <div className="lp-hero-text">
-              <p className="lp-eyebrow reveal">Platform digitalisasi UMKM Indonesia</p>
-              <h1 className="reveal reveal-delay-1">
+        <section className="relative overflow-hidden bg-[linear-gradient(145deg,_#042528_0%,_#073b3f_55%,_#0b5d61_100%)] after:pointer-events-none after:absolute after:inset-0 after:bg-[radial-gradient(ellipse_60%_50%_at_85%_40%,_rgba(245,158,11,0.06)_0%,_transparent_70%),radial-gradient(ellipse_50%_60%_at_10%_80%,_rgba(11,93,97,0.35)_0%,_transparent_70%)] after:content-[''] max-[600px]:min-h-[480px]">
+          <div className={`${container} relative z-[1] flex min-h-[600px] items-center pt-[120px] pb-[72px] max-[600px]:min-h-[420px] max-[600px]:pt-[100px] max-[600px]:pb-0`}>
+            <div className="max-w-[640px]">
+              <p className={`mb-4 block font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-amber-500 ${reveal}`} data-reveal>
+                Platform digitalisasi UMKM Indonesia
+              </p>
+              <h1 className={`${heading} text-[clamp(2.6rem,6vw,4.5rem)] text-white ${reveal} delay-100`} data-reveal>
                 Dari warung ke digital,<br />
-                <em>tanpa perlu ribet.</em>
+                <em className="italic text-amber-500">tanpa perlu ribet.</em>
               </h1>
-              <p className="lp-hero-lead reveal reveal-delay-2">
+              <p className={`mt-5 max-w-[560px] text-[1.1rem] leading-[1.72] text-white/[0.78] ${reveal} delay-200`} data-reveal>
                 UMKNow menyatukan kasir, stok, katalog online, dan pembukuan dalam satu aplikasi.
                 Cukup pakai HP, langsung pakai hari ini.
               </p>
-              <div className="lp-hero-actions reveal reveal-delay-3">
-                <a className="lp-btn lp-btn-amber" href="/register" id="hero-cta-primary">
+              <div className={`mt-8 flex flex-wrap items-center gap-3 max-[600px]:flex-col ${reveal} delay-300`} data-reveal>
+                <a className={`${button} ${amberButton} max-[600px]:w-full`} href="/register" id="hero-cta-primary">
                   Mulai gratis sekarang
                 </a>
-                <a className="lp-btn lp-btn-ghost" href="#cara-kerja" id="hero-cta-secondary">
+                <a className={`${button} border border-white/[0.3] bg-white/[0.12] text-white hover:bg-white/[0.2] max-[600px]:w-full`} href="#cara-kerja" id="hero-cta-secondary">
                   Lihat cara kerja ↓
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Module pills */}
-          <div className="lp-hero-pills" aria-label="Modul UMKNow">
-            <div className="lp-container">
-              <div className="lp-pills-row">
-                {pillModules.map((m) => (
-                  <div className="lp-pill" key={m.label}>
-                    <span className="lp-pill-icon">{m.icon}</span>
-                    <span>{m.label}</span>
+          <div className="relative z-[2] border-t border-white/[0.07] bg-black/[0.18] p-0 backdrop-blur-[8px]" aria-label="Modul UMKNow">
+            <div className={container}>
+              <div className="grid grid-cols-4 items-stretch max-[720px]:grid-cols-2">
+                {pillModules.map((module, index) => (
+                  <div
+                    className={`flex items-center justify-center gap-2.5 border-r border-white/[0.07] px-4 py-[18px] font-sans text-[0.84rem] font-medium text-white/[0.72] transition-[background,color] duration-200 ease-[ease] hover:bg-white/[0.06] hover:text-white ${index === 3 ? "border-r-0" : ""} ${index === 1 ? "max-[720px]:border-r-0" : ""} ${index > 1 ? "max-[720px]:border-t max-[720px]:border-white/[0.07]" : ""}`}
+                    key={module.label}
+                  >
+                    <span className="flex shrink-0 items-center text-amber-500 opacity-90">{module.icon}</span>
+                    <span>{module.label}</span>
                   </div>
                 ))}
               </div>
@@ -176,76 +168,93 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ── STATS ────────────────────────────────── */}
-        <section className="lp-stats-bar" aria-label="Statistik">
-          <div className="lp-container lp-stats-row">
-            {stats.map((s) => (
-              <div className="lp-stat reveal" key={s.label}>
-                <strong>{s.value}</strong>
-                <span>{s.label}</span>
+        <section className="border-b border-[#dae6e7] bg-[#edf6f6] py-[42px]" aria-label="Statistik">
+          <div className={`${container} grid grid-cols-3 gap-px max-[768px]:grid-cols-1`}>
+            {stats.map((stat, index) => (
+              <div
+                className={`px-6 py-2 text-center ${reveal} ${index ? "border-l border-[#dae6e7] max-[768px]:border-t max-[768px]:border-l-0" : ""}`}
+                data-reveal
+                key={stat.label}
+              >
+                <strong className="block font-display text-[clamp(1.8rem,3vw,2.4rem)] font-extrabold tracking-[-0.03em] text-[#0b5d61]">
+                  {stat.value}
+                </strong>
+                <span className="mt-1 block text-[0.85rem] text-[#4b6568]">{stat.label}</span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ── FEATURES ─────────────────────────────── */}
-        <section className="lp-section" id="fitur" aria-labelledby="fitur-heading">
-          <div className="lp-container">
-            <div className="lp-section-header reveal">
-              <p className="lp-eyebrow lp-eyebrow-dark">Fitur inti</p>
-              <h2 id="fitur-heading">
+        <section className="py-24 max-[600px]:py-16" id="fitur" aria-labelledby="fitur-heading">
+          <div className={container}>
+            <div className={`mb-14 max-w-[660px] ${reveal}`} data-reveal>
+              <p className="mb-4 block font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#0b5d61]">
+                Fitur inti
+              </p>
+              <h2 className={`${heading} text-[clamp(2rem,4.5vw,3.2rem)]`} id="fitur-heading">
                 Semua yang dibutuhkan toko,<br />
                 dalam satu tempat.
               </h2>
-              <p className="lp-section-lead">
+              <p className="mt-[18px] max-w-[560px] text-[1.05rem] leading-[1.7] text-[#4b6568]">
                 Tidak perlu banyak aplikasi berbeda. UMKNow menangani operasional toko dari depan sampai laporan.
               </p>
             </div>
 
-            <div className="lp-feature-grid">
-              {features.map((f, i) => (
+            <div className="grid grid-cols-4 gap-5 max-[1024px]:grid-cols-2 max-[600px]:grid-cols-1 max-[600px]:gap-[14px]">
+              {features.map((feature, index) => (
                 <article
-                  className={`lp-feat-card reveal reveal-delay-${i % 3}`}
-                  key={f.id}
-                  style={{ "--accent": f.accent, "--accent-light": f.accentLight }}
+                  className={`cursor-default rounded-2xl border border-[#dae6e7] bg-white px-6 py-7 transition-[translate,box-shadow,border-color] duration-[250ms] ease-[ease] hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] data-[visible=true]:hover:-translate-y-1 ${revealState} ${revealDelays[index % 3]}`}
+                  data-reveal
+                  key={feature.id}
+                  style={{ "--accent": feature.accent, "--accent-light": feature.accentLight }}
                 >
-                  <div className="lp-feat-icon">{f.icon}</div>
-                  <div className="lp-feat-tag">{f.tag}</div>
-                  <h3>{f.headline}</h3>
-                  <p>{f.body}</p>
+                  <div className="mb-[18px] flex h-[52px] w-[52px] items-center justify-center rounded-xl bg-[var(--accent-light)] text-[var(--accent)]">
+                    {feature.icon}
+                  </div>
+                  <div className="mb-2.5 inline-block rounded bg-[var(--accent-light)] px-2 py-[3px] font-sans text-[0.67rem] font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
+                    {feature.tag}
+                  </div>
+                  <h3 className="m-0 mb-2.5 font-display text-[1rem] font-extrabold leading-[1.35] tracking-[-0.03em] text-[#0f2526]">
+                    {feature.headline}
+                  </h3>
+                  <p className="m-0 text-[0.875rem] leading-[1.68] text-[#4b6568]">{feature.body}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ── HOW IT WORKS ─────────────────────────── */}
-        <section className="lp-section lp-section-teal" id="cara-kerja" aria-labelledby="cara-kerja-heading">
-          <div className="lp-container lp-howitworks">
-            <div className="lp-howitworks-left reveal">
-              <p className="lp-eyebrow">Cara kerja</p>
-              <h2 id="cara-kerja-heading">
+        <section className="bg-[linear-gradient(160deg,_#052e31_0%,_#073b3f_100%)] py-24 text-white max-[600px]:py-16" id="cara-kerja" aria-labelledby="cara-kerja-heading">
+          <div className={`${container} grid grid-cols-2 items-start gap-16 py-24 max-[1024px]:grid-cols-1 max-[1024px]:gap-10 max-[600px]:py-16`}>
+            <div className={`flex flex-col ${reveal}`} data-reveal>
+              <p className="mb-4 block font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-amber-500">
+                Cara kerja
+              </p>
+              <h2 className={`${heading} text-[clamp(2rem,4.5vw,3.2rem)] text-white`} id="cara-kerja-heading">
                 Mulai dari toko pertama<br />
                 tanpa proses yang rumit.
               </h2>
-              <p className="lp-howitworks-copy">
+              <p className="mt-[18px] max-w-[400px] text-[1rem] leading-[1.72] text-white/[0.68]">
                 Setup UMKNow tidak memerlukan pengetahuan teknis. Cukup siapkan data toko dan produk, sisanya kami yang urus.
               </p>
-              <a className="lp-btn lp-btn-amber" href="/register" id="steps-cta" style={{ marginTop: "28px", alignSelf: "flex-start" }}>
+              <a className={`${button} ${amberButton} mt-7 self-start`} href="/register" id="steps-cta">
                 Daftar dan coba sekarang
               </a>
             </div>
 
-            <ol className="lp-steps">
-              {steps.map((s, i) => (
+            <ol className="m-0 grid list-none gap-[14px] p-0">
+              {steps.map((step, index) => (
                 <li
-                  className={`lp-step reveal reveal-delay-${i % 3}`}
-                  key={s.n}
+                  className={`flex items-start gap-5 rounded-[14px] border border-white/[0.1] bg-white/[0.05] px-[22px] py-5 transition-[background,border-color] duration-[220ms] ease-[ease] hover:border-amber-500/[0.35] hover:bg-white/[0.09] ${revealState} ${revealDelays[index % 3]}`}
+                  data-reveal
+                  key={step.n}
                 >
-                  <span className="lp-step-num">{s.n}</span>
+                  <span className="mt-0.5 shrink-0 font-display text-[0.8rem] font-extrabold tracking-[0.04em] text-amber-500">
+                    {step.n}
+                  </span>
                   <div>
-                    <strong>{s.title}</strong>
-                    <p>{s.desc}</p>
+                    <strong className="mb-1 block font-display text-[0.98rem] font-bold text-white">{step.title}</strong>
+                    <p className="m-0 text-[0.85rem] leading-[1.6] text-white/[0.6]">{step.desc}</p>
                   </div>
                 </li>
               ))}
@@ -253,25 +262,26 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ── CTA ──────────────────────────────────── */}
-        <section className="lp-cta" aria-label="Call to action">
-          <div className="lp-container lp-cta-body">
-            <div className="lp-cta-text reveal">
-              <p className="lp-eyebrow">Siap digitalisasi?</p>
-              <h2>
+        <section className="border-t border-[#dae6e7] bg-[#f5f8f8] py-24 max-[600px]:py-16" aria-label="Call to action">
+          <div className={`${container} flex items-center justify-between gap-12 max-[768px]:items-start max-[768px]:flex-col`}>
+            <div className={reveal} data-reveal>
+              <p className="mb-4 block font-sans text-[0.72rem] font-bold uppercase tracking-[0.14em] text-amber-500">
+                Siap digitalisasi?
+              </p>
+              <h2 className={`${heading} mt-3 text-[clamp(2rem,4.5vw,3.2rem)] text-[#0f2526]`}>
                 Rapikan operasional toko<br />
                 mulai hari ini.
               </h2>
-              <p>
+              <p className="mt-4 text-[1rem] leading-[1.7] text-[#4b6568]">
                 Ribuan UMKM sudah mulai. Tidak ada biaya tersembunyi,<br />
                 tidak ada setup yang rumit.
               </p>
             </div>
-            <div className="lp-cta-actions reveal reveal-delay-1">
-              <a className="lp-btn lp-btn-amber lp-btn-lg" href="/register" id="cta-final">
+            <div className={`flex shrink-0 flex-col items-center gap-3 ${reveal} delay-100 max-[768px]:w-full`} data-reveal>
+              <a className={`${button} ${amberButton} min-h-[54px] px-[30px] text-[1.05rem] max-[768px]:w-full`} href="/register" id="cta-final">
                 Buat akun toko gratis
               </a>
-              <p className="lp-cta-note">Cukup pakai HP, langsung bisa dipakai.</p>
+              <p className="m-0 text-center text-[0.82rem] text-[#748c8f]">Cukup pakai HP, langsung bisa dipakai.</p>
             </div>
           </div>
         </section>
@@ -281,492 +291,3 @@ export default function Landing() {
     </div>
   );
 }
-
-/* ─── Styles ─────────────────────────────────────────────── */
-const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap');
-
-  /* ── Tokens ────────────────────────────────────────── */
-  .lp {
-    --teal-900: #042528;
-    --teal-800: #052e31;
-    --teal-700: #073b3f;
-    --teal-600: #0b5d61;
-    --teal-500: #0d7277;
-    --teal-200: #b2d8da;
-    --teal-50:  #edf6f6;
-    --amber:    #f59e0b;
-    --amber-lt: #fbbf24;
-    --ink:      #0f2526;
-    --ink-2:    #2a4244;
-    --muted:    #4b6568;
-    --muted-lt: #748c8f;
-    --line:     #dae6e7;
-    --surface:  #f5f8f8;
-    --white:    #ffffff;
-
-    background: var(--white);
-    color: var(--ink);
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ── Layout ────────────────────────────────────────── */
-  .lp-container {
-    margin: 0 auto;
-    width: min(1120px, calc(100% - 48px));
-  }
-
-  /* ── Reveal animations ─────────────────────────────── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
-                transform 0.65s cubic-bezier(0.16,1,0.3,1);
-  }
-  .reveal.is-visible { opacity: 1; transform: none; }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-
-  /* ── Typography ────────────────────────────────────── */
-  .lp h1, .lp h2, .lp h3 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.06;
-    margin: 0;
-  }
-
-  .lp h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); }
-  .lp h1 em { font-style: italic; color: var(--amber); }
-
-  .lp h2 {
-    font-size: clamp(2rem, 4.5vw, 3.2rem);
-    max-width: 820px;
-  }
-
-  .lp h3 { font-size: 1.1rem; margin-bottom: 10px; }
-
-  .lp-eyebrow {
-    color: var(--amber);
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    margin: 0 0 16px;
-    text-transform: uppercase;
-  }
-
-  .lp-eyebrow-dark { color: var(--teal-600); }
-
-  /* ── Buttons ───────────────────────────────────────── */
-  .lp-btn {
-    align-items: center;
-    border-radius: 10px;
-    border: none;
-    display: inline-flex;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    gap: 6px;
-    justify-content: center;
-    min-height: 46px;
-    padding: 0 22px;
-    text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    white-space: nowrap;
-  }
-
-  .lp-btn:hover { transform: translateY(-2px); }
-  .lp-btn:active { transform: translateY(0); }
-
-  .lp-btn-amber {
-    background: var(--amber);
-    box-shadow: 0 2px 16px rgba(245,158,11,0.3);
-    color: var(--ink);
-  }
-  .lp-btn-amber:hover {
-    background: var(--amber-lt);
-    box-shadow: 0 4px 24px rgba(245,158,11,0.4);
-  }
-
-  .lp-btn-ghost {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-  }
-  .lp-btn-ghost:hover { background: rgba(255,255,255,0.2); }
-
-  .lp-btn-lg { font-size: 1.05rem; min-height: 54px; padding: 0 30px; }
-
-  /* ── HERO ──────────────────────────────────────────── */
-  .lp-hero {
-    background: linear-gradient(
-      145deg,
-      #042528 0%,
-      #073b3f 55%,
-      #0b5d61 100%
-    );
-    overflow: hidden;
-    position: relative;
-  }
-
-  .lp-hero::after {
-    background:
-      radial-gradient(ellipse 60% 50% at 85% 40%, rgba(245,158,11,0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 60% at 10% 80%, rgba(11,93,97,0.35) 0%, transparent 70%);
-    content: '';
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
-  }
-
-  .lp-hero-body {
-    align-items: center;
-    display: flex;
-    min-height: 600px;
-    padding: 120px 0 72px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .lp-hero-text { max-width: 640px; }
-  .lp-hero-text h1 { color: #fff; }
-  .lp-hero-text .lp-eyebrow { color: var(--amber); }
-
-  .lp-hero-lead {
-    color: rgba(255,255,255,0.78);
-    font-size: 1.1rem;
-    line-height: 1.72;
-    margin: 20px 0 0;
-    max-width: 560px;
-  }
-
-  .lp-hero-actions {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
-  }
-
-  /* Module pills */
-  .lp-hero-pills {
-    background: rgba(0,0,0,0.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding: 0;
-    position: relative;
-    z-index: 2;
-  }
-
-  .lp-pills-row {
-    align-items: stretch;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .lp-pill {
-    align-items: center;
-    border-right: 1px solid rgba(255,255,255,0.07);
-    color: rgba(255,255,255,0.72);
-    display: flex;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.84rem;
-    font-weight: 500;
-    gap: 10px;
-    justify-content: center;
-    padding: 18px 16px;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .lp-pill:last-child { border-right: none; }
-
-  .lp-pill:hover {
-    background: rgba(255,255,255,0.06);
-    color: #fff;
-  }
-
-  .lp-pill-icon {
-    align-items: center;
-    color: var(--amber);
-    display: flex;
-    flex-shrink: 0;
-    opacity: 0.9;
-  }
-
-  /* ── STATS BAR ─────────────────────────────────────── */
-  .lp-stats-bar {
-    background: var(--teal-50);
-    border-bottom: 1px solid var(--line);
-    padding: 42px 0;
-  }
-
-  .lp-stats-row {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .lp-stat {
-    padding: 8px 24px;
-    text-align: center;
-  }
-
-  .lp-stat + .lp-stat {
-    border-left: 1px solid var(--line);
-  }
-
-  .lp-stat strong {
-    color: var(--teal-600);
-    display: block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: clamp(1.8rem, 3vw, 2.4rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-  }
-
-  .lp-stat span {
-    color: var(--muted);
-    display: block;
-    font-size: 0.85rem;
-    margin-top: 4px;
-  }
-
-  /* ── SECTIONS ──────────────────────────────────────── */
-  .lp-section { padding: 96px 0; }
-
-  .lp-section-header {
-    margin-bottom: 56px;
-    max-width: 660px;
-  }
-
-  .lp-section-lead {
-    color: var(--muted);
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin: 18px 0 0;
-    max-width: 560px;
-  }
-
-  .lp-section-teal {
-    background: linear-gradient(160deg, var(--teal-800) 0%, var(--teal-700) 100%);
-    color: #fff;
-  }
-
-  .lp-section-teal .lp-eyebrow { color: var(--amber); }
-  .lp-section-teal .lp-eyebrow::before { background: var(--amber); }
-
-  /* ── FEATURE CARDS ─────────────────────────────────── */
-  .lp-feature-grid {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .lp-feat-card {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    cursor: default;
-    padding: 28px 24px;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  }
-
-  .lp-feat-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-    transform: translateY(-4px);
-  }
-
-  .lp-feat-icon {
-    align-items: center;
-    background: var(--accent-light);
-    border-radius: 12px;
-    color: var(--accent);
-    display: flex;
-    height: 52px;
-    justify-content: center;
-    margin-bottom: 18px;
-    width: 52px;
-  }
-
-  .lp-feat-tag {
-    background: var(--accent-light);
-    border-radius: 4px;
-    color: var(--accent);
-    display: inline-block;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.67rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 10px;
-    padding: 3px 8px;
-    text-transform: uppercase;
-  }
-
-  .lp-feat-card h3 {
-    color: var(--ink);
-    font-size: 1rem;
-    line-height: 1.35;
-    margin: 0 0 10px;
-  }
-
-  .lp-feat-card p {
-    color: var(--muted);
-    font-size: 0.875rem;
-    line-height: 1.68;
-    margin: 0;
-  }
-
-  /* ── HOW IT WORKS ──────────────────────────────────── */
-  .lp-howitworks {
-    align-items: start;
-    display: grid;
-    gap: 64px;
-    grid-template-columns: 1fr 1fr;
-    padding: 96px 0;
-  }
-
-  .lp-howitworks-left {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .lp-howitworks-left h2 { color: #fff; }
-
-  .lp-howitworks-copy {
-    color: rgba(255,255,255,0.68);
-    font-size: 1rem;
-    line-height: 1.72;
-    margin: 18px 0 0;
-    max-width: 400px;
-  }
-
-  .lp-steps {
-    display: grid;
-    gap: 14px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .lp-step {
-    align-items: flex-start;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    display: flex;
-    gap: 20px;
-    padding: 20px 22px;
-    transition: background 0.22s ease, border-color 0.22s ease;
-  }
-
-  .lp-step:hover {
-    background: rgba(255,255,255,0.09);
-    border-color: rgba(245,158,11,0.35);
-  }
-
-  .lp-step-num {
-    color: var(--amber);
-    flex-shrink: 0;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    margin-top: 2px;
-  }
-
-  .lp-step strong {
-    color: #fff;
-    display: block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.98rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .lp-step p {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.85rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* ── CTA ───────────────────────────────────────────── */
-  .lp-cta {
-    background: var(--surface);
-    border-top: 1px solid var(--line);
-    padding: 96px 0;
-  }
-
-  .lp-cta-body {
-    align-items: center;
-    display: flex;
-    gap: 48px;
-    justify-content: space-between;
-  }
-
-  .lp-cta-text h2 {
-    color: var(--ink);
-    margin-top: 12px;
-  }
-
-  .lp-cta-text p {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.7;
-    margin: 16px 0 0;
-  }
-
-  .lp-cta-actions {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    gap: 12px;
-  }
-
-  .lp-cta-note {
-    color: var(--muted-lt);
-    font-size: 0.82rem;
-    margin: 0;
-    text-align: center;
-  }
-
-  /* ── Responsive ────────────────────────────────────── */
-  @media (max-width: 1024px) {
-    .lp-feature-grid { grid-template-columns: repeat(2, 1fr); }
-    .lp-howitworks { grid-template-columns: 1fr; gap: 40px; }
-  }
-
-  @media (max-width: 768px) {
-    .lp-stats-row { grid-template-columns: 1fr; }
-    .lp-stat + .lp-stat { border-left: none; border-top: 1px solid var(--line); }
-    .lp-cta-body { flex-direction: column; align-items: flex-start; }
-    .lp-cta-actions { width: 100%; }
-    .lp-btn-lg { width: 100%; }
-  }
-
-  @media (max-width: 720px) {
-    .lp-pills-row { grid-template-columns: repeat(2, 1fr); }
-    .lp-pill:nth-child(2) { border-right: none; }
-    .lp-pill:nth-child(3),
-    .lp-pill:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.07); }
-  }
-
-  @media (max-width: 600px) {
-    .lp-hero { min-height: 480px; }
-    .lp-hero-body { padding: 100px 0 0; min-height: 420px; }
-    .lp-section { padding: 64px 0; }
-    .lp-howitworks { padding: 64px 0; }
-    .lp-cta { padding: 64px 0; }
-    .lp-feature-grid { grid-template-columns: 1fr; gap: 14px; }
-    .lp-hero-actions { flex-direction: column; }
-    .lp-hero-actions .lp-btn { width: 100%; }
-    .lp-container { width: min(100% - 32px, 1120px); }
-  }
-`;
