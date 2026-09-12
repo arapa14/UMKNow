@@ -36,33 +36,37 @@ export default function Register() {
   };
 
   return (
-    <div className="reg-page">
-      <style>{registerStyles}</style>
-
-      {/* ── PANEL KIRI: FORM REGISTRASI (Rapi, Seimbang & Tanpa Scroll) ── */}
-      <div className="reg-form-panel">
-        <div className="reg-form-container">
+    <div className="flex flex-col md:flex-row h-screen max-h-screen w-full font-sans text-ink bg-white overflow-hidden">
+      {/* ── PANEL KIRI: FORM REGISTRASI (Rapi, Seimbang, Tanpa Scroll di Desktop) ── */}
+      <div className="flex-1 md:flex-[1.25] flex items-center justify-center p-6 sm:p-10 lg:p-14 bg-white h-full box-border overflow-y-auto md:overflow-hidden">
+        <div className="w-full max-w-[480px]">
           {/* Brand Header */}
-          <div className="reg-brand-wrapper">
-            <Link to="/" className="reg-brand-logo" title="Kembali ke Beranda">
-              <span className="reg-brand-u">UMK</span>Now
+          <div className="mb-6">
+            <Link
+              to="/"
+              className="inline-block font-display text-2xl font-extrabold text-teal-900 tracking-tight"
+              title="Kembali ke Beranda"
+            >
+              <span className="text-amber-500">UMK</span>Now
             </Link>
           </div>
 
           {/* Header Title */}
-          <div className="reg-header">
-            <h1 className="reg-title">Mulai Digitalisasi Toko Anda</h1>
-            <p className="reg-subtitle">
+          <div className="mb-6">
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-teal-900 mb-1.5">
+              Mulai Digitalisasi Toko Anda
+            </h1>
+            <p className="text-xs sm:text-sm text-muted leading-relaxed">
               Daftar dalam 1 menit. Langsung pakai kasir dan atur stok dari HP, tanpa biaya setup.
             </p>
           </div>
 
           {/* Form */}
-          <form className="reg-form" onSubmit={handleSubmit} noValidate>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
             {/* Grid 2 Kolom: Nama Lengkap & Nomor Telepon */}
-            <div className="reg-grid-2">
-              <div className="reg-field-group">
-                <label htmlFor="reg-name" className="reg-label">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="reg-name" className="text-xs sm:text-sm font-semibold text-ink">
                   Nama Lengkap
                 </label>
                 <input
@@ -70,15 +74,15 @@ export default function Register() {
                   name="name"
                   type="text"
                   autoComplete="name"
-                  className="reg-input"
+                  className="w-full h-11 px-3.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
                   value={formData.name}
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <div className="reg-field-group">
-                <label htmlFor="reg-phone" className="reg-label">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="reg-phone" className="text-xs sm:text-sm font-semibold text-ink">
                   Nomor WhatsApp / HP
                 </label>
                 <input
@@ -86,7 +90,7 @@ export default function Register() {
                   name="phone"
                   type="tel"
                   autoComplete="tel"
-                  className="reg-input"
+                  className="w-full h-11 px-3.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
                   value={formData.phone}
                   onChange={handleChange}
                   required
@@ -95,9 +99,9 @@ export default function Register() {
             </div>
 
             {/* Grid 2 Kolom: Email & Kata Sandi */}
-            <div className="reg-grid-2">
-              <div className="reg-field-group">
-                <label htmlFor="reg-email" className="reg-label">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="reg-email" className="text-xs sm:text-sm font-semibold text-ink">
                   Email Aktif
                 </label>
                 <input
@@ -105,31 +109,31 @@ export default function Register() {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  className="reg-input"
+                  className="w-full h-11 px-3.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
                   value={formData.email}
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <div className="reg-field-group">
-                <label htmlFor="reg-password" className="reg-label">
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="reg-password" className="text-xs sm:text-sm font-semibold text-ink">
                   Kata Sandi
                 </label>
-                <div className="reg-input-wrapper">
+                <div className="relative flex items-center">
                   <input
                     id="reg-password"
                     name="password"
                     type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
-                    className="reg-input reg-input-password"
+                    className="w-full h-11 pl-3.5 pr-10 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
                     value={formData.password}
                     onChange={handleChange}
                     required
                   />
                   <button
                     type="button"
-                    className="reg-pw-toggle"
+                    className="absolute right-2.5 text-muted hover:text-ink transition-colors p-1"
                     onClick={() => setShowPassword((prev) => !prev)}
                     aria-label={showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"}
                     tabIndex={-1}
@@ -151,24 +155,35 @@ export default function Register() {
             </div>
 
             {/* Checkbox Persetujuan */}
-            <div className="reg-checkbox-group">
-              <label className="reg-checkbox-label">
-                <input
-                  type="checkbox"
-                  name="agreedToTerms"
-                  className="reg-checkbox"
-                  checked={formData.agreedToTerms}
-                  onChange={handleChange}
-                  required
-                />
-                <span>
-                  Saya menyetujui <a href="#syarat" className="reg-inline-link">Ketentuan Layanan</a> dan <a href="#privasi" className="reg-inline-link">Kebijakan Privasi</a> UMKNow.
-                </span>
+            <div className="flex items-center gap-2 mt-1">
+              <input
+                type="checkbox"
+                id="reg-terms"
+                name="agreedToTerms"
+                className="w-4 h-4 rounded text-teal-600 accent-teal-600 cursor-pointer shrink-0"
+                checked={formData.agreedToTerms}
+                onChange={handleChange}
+                required
+              />
+              <label htmlFor="reg-terms" className="text-xs text-muted cursor-pointer select-none">
+                Saya menyetujui{" "}
+                <a href="#syarat" className="text-teal-600 font-semibold underline underline-offset-2">
+                  Ketentuan Layanan
+                </a>{" "}
+                dan{" "}
+                <a href="#privasi" className="text-teal-600 font-semibold underline underline-offset-2">
+                  Kebijakan Privasi
+                </a>{" "}
+                UMKNow.
               </label>
             </div>
 
             {/* Tombol Submit CTA */}
-            <button type="submit" className="reg-submit-btn" id="btn-register-submit">
+            <button
+              type="submit"
+              className="w-full h-12 bg-amber-500 hover:bg-amber-400 text-ink font-display font-bold text-sm sm:text-base rounded-lg transition-all duration-150 active:scale-[0.99] mt-2 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              id="btn-register-submit"
+            >
               <span>Buat Akun Toko Gratis</span>
               <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -177,28 +192,32 @@ export default function Register() {
           </form>
 
           {/* Switch ke Login */}
-          <div className="reg-switch-prompt">
-            <p>
-              Sudah memiliki akun toko?{" "}
-              <Link to="/login" className="reg-switch-link">
-                Masuk di sini
-              </Link>
-            </p>
+          <div className="mt-6 text-center text-xs sm:text-sm text-muted">
+            Sudah memiliki akun toko?{" "}
+            <Link to="/login" className="text-teal-600 font-bold hover:underline ml-1">
+              Masuk di sini
+            </Link>
           </div>
         </div>
       </div>
 
       {/* ── PANEL KANAN: BACKGROUND IMAGE DENGAN TEAL OVERLAY & TEKS TEGAS ── */}
-      <div className="reg-visual-panel">
-        <div className="reg-visual-bg" />
-        <div className="reg-visual-overlay" />
+      <div className="relative hidden md:flex flex-1 flex-col justify-center p-12 lg:p-16 bg-teal-900 text-white h-full box-border overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600&auto=format&fit=crop')",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-900/80 via-teal-900/90 to-teal-900/95" />
 
-        <div className="reg-visual-content">
-          <h2 className="reg-visual-heading">
+        <div className="relative z-10 max-w-[440px]">
+          <h2 className="font-display text-3xl lg:text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">
             Usaha mandiri,<br />
             kelola rapi.
           </h2>
-          <p className="reg-visual-lead">
+          <p className="text-base lg:text-lg text-white/80 leading-relaxed">
             Sistem kasir dan catatan operasional toko yang siap digunakan langsung dari ponselmu.
           </p>
         </div>
@@ -206,300 +225,3 @@ export default function Register() {
     </div>
   );
 }
-
-const registerStyles = `
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
-
-  .reg-page {
-    display: flex;
-    height: 100vh;
-    max-height: 100vh;
-    width: 100%;
-    background-color: #ffffff;
-    color: #0f2526;
-    font-family: 'Inter', sans-serif;
-    overflow: hidden;
-  }
-
-  /* ── Panel Kiri (Form) ── */
-  .reg-form-panel {
-    flex: 1.25;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 56px;
-    background-color: #ffffff;
-    height: 100%;
-    box-sizing: border-box;
-  }
-
-  .reg-form-container {
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .reg-brand-wrapper {
-    margin-bottom: 24px;
-  }
-
-  .reg-brand-logo {
-    text-decoration: none;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.45rem;
-    font-weight: 800;
-    color: #042528;
-    letter-spacing: -0.02em;
-    display: inline-block;
-  }
-
-  .reg-brand-u {
-    color: #f59e0b;
-  }
-
-  .reg-header {
-    margin-bottom: 24px;
-  }
-
-  .reg-title {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #042528;
-    letter-spacing: -0.025em;
-    margin: 0 0 6px 0;
-  }
-
-  .reg-subtitle {
-    font-size: 0.9rem;
-    color: #556c6e;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .reg-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .reg-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .reg-field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .reg-label {
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: #0f2526;
-  }
-
-  .reg-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .reg-input {
-    width: 100%;
-    height: 44px;
-    padding: 0 14px;
-    background-color: #ffffff;
-    border: 1.5px solid #d3dedf;
-    border-radius: 8px;
-    font-size: 0.92rem;
-    color: #0f2526;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    box-sizing: border-box;
-  }
-
-  .reg-input:focus {
-    outline: none;
-    border-color: #0b5d61;
-    box-shadow: 0 0 0 3px rgba(11, 93, 97, 0.1);
-  }
-
-  .reg-input-password {
-    padding-right: 42px;
-  }
-
-  .reg-pw-toggle {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #748c8f;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .reg-pw-toggle:hover {
-    color: #0f2526;
-  }
-
-  .reg-checkbox-group {
-    margin-top: 2px;
-  }
-
-  .reg-checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    color: #556c6e;
-    cursor: pointer;
-    line-height: 1.4;
-  }
-
-  .reg-checkbox {
-    width: 16px;
-    height: 16px;
-    accent-color: #0b5d61;
-    cursor: pointer;
-    flex-shrink: 0;
-    margin: 0;
-  }
-
-  .reg-inline-link {
-    color: #0b5d61;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .reg-submit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    height: 48px;
-    background-color: #f59e0b;
-    color: #0f2526;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.98rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 4px;
-    transition: background-color 0.15s ease, transform 0.12s ease;
-  }
-
-  .reg-submit-btn:hover {
-    background-color: #fbbf24;
-    transform: translateY(-1px);
-  }
-
-  .reg-submit-btn:active {
-    transform: translateY(0);
-  }
-
-  .reg-switch-prompt {
-    margin-top: 22px;
-    text-align: center;
-    font-size: 0.88rem;
-    color: #556c6e;
-  }
-
-  .reg-switch-prompt p {
-    margin: 0;
-  }
-
-  .reg-switch-link {
-    color: #0b5d61;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .reg-switch-link:hover {
-    text-decoration: underline;
-  }
-
-  /* ── Panel Kanan (Visual dengan Background Image + Dark Teal Overlay) ── */
-  .reg-visual-panel {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 72px 64px;
-    background-color: #042528;
-    color: #ffffff;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .reg-visual-bg {
-    position: absolute;
-    inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600&auto=format&fit=crop');
-    background-size: cover;
-    background-position: center;
-    filter: saturate(0.9);
-  }
-
-  .reg-visual-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      140deg,
-      rgba(4, 37, 40, 0.78) 0%,
-      rgba(4, 37, 40, 0.88) 50%,
-      rgba(4, 37, 40, 0.97) 100%
-    );
-  }
-
-  .reg-visual-content {
-    position: relative;
-    z-index: 2;
-    max-width: 440px;
-  }
-
-  .reg-visual-heading {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 2.35rem;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    margin: 0 0 16px 0;
-  }
-
-  .reg-visual-lead {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.78);
-    margin: 0;
-  }
-
-  /* ── Responsive Mobile ── */
-  @media (max-width: 900px) {
-    .reg-page {
-      height: auto;
-      max-height: none;
-      overflow-y: auto;
-    }
-    .reg-visual-panel {
-      display: none;
-    }
-    .reg-form-panel {
-      padding: 40px 20px;
-      height: auto;
-    }
-    .reg-grid-2 {
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-  }
-`;
