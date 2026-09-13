@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Layout from "./components/dashboard-layout/Layout";
 
 // Pages
 import Testing from "./pages/Testing";
@@ -14,7 +15,6 @@ import Catalog from "./pages/Catalog";
 import Bookkeeping from "./pages/Bookkeeping";
 import Settings from "./pages/Settings";
 
-
 export default function App() {
   return (
     <Routes>
@@ -26,20 +26,18 @@ export default function App() {
       {/* ============ TESTING ROUTE (untuk dev) ============ */}
       <Route path="/testing" element={<Testing />} />
 
-      {/* ============ PROTECTED ROUTES (nanti) ============ */}
+      {/* ============ PROTECTED ROUTES ============ */}
+      {/* ProtectedRoute cek auth dulu -> Layout render Sidebar+Navbar sekali
+          -> halaman spesifik muncul di <Outlet /> dalam Layout */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/pos" element={<POS />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/catalog" element={<Catalog />} />
-        <Route path="/bookkeeping" element={<Bookkeeping />} />
-        <Route path="/settings" element={<Settings />} />
-
-        {/* Tambahkan halaman protected lain di sini */}
-        {/*  <Route path="/pos" element={<POS />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/pos" element={<POS />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/catalog" element={<Catalog />} />
-          <Route path="/bookkeeping" element={<Bookkeeping />} /> */}
+          <Route path="/bookkeeping" element={<Bookkeeping />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
       </Route>
 
       {/* ============ 404 ============ */}
