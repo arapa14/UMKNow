@@ -5,7 +5,7 @@ import Testing from "./pages/Testing";
 import Landing from "./pages/Landing";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/error/NotFound";
 
 export default function App() {
   return (
@@ -14,7 +14,6 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/not-found" element={<NotFound />} />
 
       {/* ============ TESTING ROUTE (untuk dev) ============ */}
       <Route path="/testing" element={<Testing />} />
