@@ -8,6 +8,12 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/error/NotFound";
+import POS from "./pages/Pos";
+import Inventory from "./pages/Inventory";
+import Catalog from "./pages/Catalog";
+import Bookkeeping from "./pages/Bookkeeping";
+import Settings from "./pages/Settings";
+
 
 export default function App() {
   return (
@@ -23,6 +29,12 @@ export default function App() {
       {/* ============ PROTECTED ROUTES (nanti) ============ */}
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/pos" element={<POS />} />
+        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/catalog" element={<Catalog />} />
+        <Route path="/bookkeeping" element={<Bookkeeping />} />
+        <Route path="/settings" element={<Settings />} />
+
         {/* Tambahkan halaman protected lain di sini */}
         {/*  <Route path="/pos" element={<POS />} />
           <Route path="/inventory" element={<Inventory />} />
