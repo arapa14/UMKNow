@@ -1,9 +1,9 @@
 export default function Footer() {
   return (
     <footer className="bg-teal-900 text-white pt-14 pb-0 font-sans">
-      <div className="mx-auto max-w-[1120px] px-6 flex flex-col md:flex-row justify-between items-start gap-10 md:gap-16 pb-11">
+      <div className="mx-auto max-w-280 px-6 flex flex-col md:flex-row justify-between items-start gap-10 md:gap-16 pb-11">
         {/* Brand Column */}
-        <div className="max-w-[380px]">
+        <div className="max-w-95">
           <a
             className="font-display text-2xl font-extrabold text-white tracking-tight inline-block"
             href="#top"
@@ -17,7 +17,7 @@ export default function Footer() {
 
         {/* Navigation Columns (2 Kolom Seimbang) */}
         <div className="flex gap-12 sm:gap-16">
-          <nav className="flex flex-col gap-2.5 min-w-[100px]" aria-label="Navigasi produk">
+          <nav className="flex flex-col gap-2.5 min-w-25" aria-label="Navigasi produk">
             <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">
               Produk
             </p>
@@ -29,7 +29,7 @@ export default function Footer() {
             </a>
           </nav>
 
-          <nav className="flex flex-col gap-2.5 min-w-[100px]" aria-label="Akses toko">
+          <nav className="flex flex-col gap-2.5 min-w-25" aria-label="Akses toko">
             <p className="text-xs font-bold text-white/40 uppercase tracking-wider mb-1">
               Akses Toko
             </p>
@@ -44,7 +44,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10 mx-auto max-w-[1120px] px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/40">
+      <div className="border-t border-white/10 mx-auto max-w-280 px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/40">
         <span>© 2026 UMKNow. Dibuat dengan ❤️ untuk UMKM Indonesia.</span>
         <span className="inline-flex items-center px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 font-semibold text-xs">
           SDGs 9: Industry &amp; Innovation
