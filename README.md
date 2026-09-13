@@ -245,6 +245,94 @@ VITE_SUPABASE_ANON_KEY=
 
 ## 🗄 Skema Database
 
+### Konsep Relasi
+
+UMKNow menggunakan model **one-to-one (1:1)** antara user dan toko:
+- **1 user hanya punya 1 toko**
+- **1 toko hanya dimiliki 1 user**
+
+Ini dicapai dengan constraint `UNIQUE` pada `stores.owner_id`, sehingga tidak mungkin ada 2 toko dengan owner yang sama.
+
+### Tabel Utama
+
+| Tabel | Deskripsi | Relasi |
+|-------|-----------|--------|
+| `auth.users` | User auth bawaan Supabase (email, password) | Built-in |
+| `users_tb` | Profil user (nama, email, phone) | 1:1 dengan `auth.users` |
+| `stores` | Data UMKM (nama usaha, kategori, deskripsi) | **1:1** dengan `users_tb` |
+| `store_categories` | Master kategori usaha | Referensi dropdown |
+| `products` | Master produk per toko | Nanti (fase POS) |
+| `transactions` | Header transaksi penjualan | Nanti (fase POS) |
+| `transaction_items` | Detail item per transaksi | Nanti (fase POS) |
+| `bookkeeping` | Laporan laba-rugi otomatis | Nanti (fase POS) |
+
+### Detail Kolom
+
+#### `users_tb` — Profil User
+
+| Kolom | Tipe | Constraint | Keterangan |
+|-------|------|------------|------------|
+| `id` | `BIGINT` | PK, Identity | Auto increment |
+| `auth_user_id` | `UUID` | UNIQUE, FK → `auth.users(id)` | Link ke auth |
+| `name` | `TEXT` | NOT NULL | Nama lengkap |
+| `email` | `TEXT` | UNIQUE, NOT NULL | Email |
+| `phone` | `TEXT` | — | Nomor WA/HP |
+| `is_verified` | `BOOLEAN` | DEFAULT FALSE | Status verifikasi |
+| `created_at` | `TIMESTAMPTZ` | DEFAULT NOW() | Waktu daftar |
+
+#### `stores` — Data UMKM
+
+| Kolom | Tipe | Constraint | Keterangan |
+|-------|------|------------|------------|
+| `id` | `BIGINT` | PK, Identity | Auto increment |
+| `owner_id` | `BIGINT` | **UNIQUE**, FK → `users_tb(id)` | **Kunci relasi 1:1** |
+| `name` | `TEXT` | NOT NULL | Nama usaha |
+| `slug` | `TEXT` | UNIQUE | URL katalog |
+| `category` | `TEXT` | — | Kategori (kuliner, dll) |
+| `description` | `TEXT` | — | Deskripsi usaha |
+| `address` | `TEXT` | — | Alamat |
+| `phone` | `TEXT` | — | Nomor WA toko |
+| `logo_url` | `TEXT` | — | Logo toko |
+| `is_active` | `BOOLEAN` | DEFAULT TRUE | Status aktif |
+| `created_at` | `TIMESTAMPTZ` | DEFAULT NOW() | — |
+| `updated_at` | `TIMESTAMPTZ` | DEFAULT NOW() | — |
+
+#### `store_categories` — Master Kategori (Opsional)
+
+| Kolom | Tipe | Constraint | Keterangan |
+|-------|------|------------|------------|
+| `id` | `BIGINT` | PK, Identity | Auto increment |
+| `value` | `TEXT` | UNIQUE, NOT NULL | `kuliner`, `retail` |
+| `label` | `TEXT` | NOT NULL | `🍜 Kuliner` |
+
+### Diagram Relasi
+
+```text
+┌──────────────────┐
+│   auth.users     │  (Supabase built-in)
+│   - id (UUID)    │
+│   - email        │
+└────────┬─────────┘
+         │ 1:1 (trigger otomatis)
+         ▼
+┌──────────────────┐
+│    users_tb      │
+│   - id           │
+│   - auth_user_id │
+│   - name, email  │
+│   - phone        │
+└────────┬─────────┘
+         │ 1:1 (owner_id UNIQUE)
+         ▼
+┌──────────────────┐
+│     stores       │
+│   - id           │
+│   - owner_id     │ ← UNIQUE = kunci 1:1
+│   - name, slug   │
+│   - category     │
+│   - description  │
+└──────────────────┘
+
 ### Tabel Utama
 
 | Tabel | Deskripsi |
