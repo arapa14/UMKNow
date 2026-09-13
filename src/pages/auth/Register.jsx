@@ -2,15 +2,16 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { createStore } from "../../services/storeService";
+import Modal from "../../components/common/Modal";
 
 const CATEGORIES = [
-  { value: "kuliner", label: "🍜 Kuliner" },
-  { value: "retail", label: "🏪 Retail / Toko Kelontong" },
-  { value: "fashion", label: "👕 Fashion" },
-  { value: "jasa", label: "💼 Jasa" },
-  { value: "kerajinan", label: "🎨 Kerajinan" },
-  { value: "pertanian", label: "🌾 Pertanian" },
-  { value: "lainnya", label: "📦 Lainnya" },
+  { value: "kuliner", label: "Kuliner" },
+  { value: "retail", label: "Retail / Toko Kelontong" },
+  { value: "fashion", label: "Fashion" },
+  { value: "jasa", label: "Jasa" },
+  { value: "kerajinan", label: "Kerajinan" },
+  { value: "pertanian", label: "Pertanian" },
+  { value: "lainnya", label: "Lainnya" },
 ];
 
 export default function Register() {
@@ -19,19 +20,17 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    // Data akun
     name: "",
     email: "",
     phone: "",
     password: "",
     confirmPassword: "",
-    // Data usaha
     storeName: "",
     storeCategory: "",
     storeDescription: "",
-    // Persetujuan
     agreedToTerms: false,
   });
 
@@ -47,7 +46,6 @@ export default function Register() {
     e.preventDefault();
     setError(null);
 
-    // Validasi
     if (!formData.name.trim()) return setError("Nama lengkap wajib diisi.");
     if (!formData.email.trim()) return setError("Email wajib diisi.");
     if (formData.password.length < 6)
@@ -63,21 +61,15 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // 1. Register auth + users_tb (via trigger)
       const { data, error: authError } = await register(
         formData.email,
         formData.password,
-        {
-          name: formData.name,
-          phone: formData.phone,
-        },
+        { name: formData.name, phone: formData.phone },
       );
 
       if (authError) throw authError;
       if (!data.user) throw new Error("Registrasi gagal. Coba lagi.");
 
-      // 2. Buat store untuk user ini
-      //    (butuh user id dari users_tb — bisa via RPC atau select)
       const { error: storeError } = await createStore({
         ownerAuthId: data.user.id,
         name: formData.storeName,
@@ -88,9 +80,7 @@ export default function Register() {
 
       if (storeError) throw storeError;
 
-      // 3. Sukses → redirect
-      alert("Akun & toko berhasil dibuat! Silakan cek email untuk verifikasi.");
-      navigate("/login");
+      setShowSuccess(true);
     } catch (err) {
       console.error(err);
       setError(err.message || "Terjadi kesalahan. Coba lagi.");
@@ -100,124 +90,50 @@ export default function Register() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen max-h-screen w-full font-sans text-ink bg-white overflow-hidden">
+    <div className="flex h-screen max-h-screen w-full overflow-hidden font-sans text-ink">
       {/* ── PANEL KIRI: FORM ── */}
-      <div className="flex-1 md:flex-[1.25] flex items-center justify-center p-6 sm:p-10 lg:p-14 bg-white h-full overflow-y-auto">
-        <div className="w-full max-w-[520px]">
-          {/* Brand */}
-          <div className="mb-6">
-            <Link
-              to="/"
-              className="inline-block font-display text-2xl font-extrabold text-teal-900 tracking-tight"
-            >
-              <span className="text-amber-500">UMK</span>Now
-            </Link>
-          </div>
+      <div className="flex flex-1 items-center justify-center overflow-y-auto bg-white p-6 sm:p-8 lg:p-10">
+        <div className="w-full max-w-130">
+          <Link
+            to="/"
+            className="mb-4 inline-block font-display text-xl font-extrabold tracking-tight text-teal-900"
+          >
+            <span className="text-amber-500">UMK</span>Now
+          </Link>
 
-          {/* Title */}
-          <div className="mb-6">
-            <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-teal-900 mb-1.5">
+          <div className="mb-4">
+            <h1 className="font-display text-xl font-extrabold tracking-tight text-teal-900 sm:text-2xl">
               Mulai Digitalisasi Toko Anda
             </h1>
-            <p className="text-xs sm:text-sm text-muted leading-relaxed">
-              Daftar dalam 1 menit. Langsung pakai kasir dan atur stok dari HP,
-              tanpa biaya setup.
+            <p className="mt-1 text-xs leading-relaxed text-muted">
+              Daftar dalam 1 menit. Langsung pakai kasir dan atur stok dari HP, tanpa biaya setup.
             </p>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
+            <div className="mb-3 rounded-lg border border-red-200 bg-red-50 p-2.5 text-xs text-red-700">
               {error}
             </div>
           )}
 
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={handleSubmit}
-            noValidate
-          >
-            {/* === SECTION: DATA AKUN === */}
-            <div className="text-xs font-bold text-teal-700 uppercase tracking-wider mb-1">
-              Data Akun
+          <form className="flex flex-col gap-2.5" onSubmit={handleSubmit} noValidate>
+            <div className="grid grid-cols-2 gap-3">
+              <Field id="reg-name" name="name" label="Nama Lengkap" value={formData.name} onChange={handleChange} autoComplete="name" />
+              <Field id="reg-phone" name="phone" label="Nomor WhatsApp / HP" type="tel" value={formData.phone} onChange={handleChange} autoComplete="tel" />
             </div>
 
-            {/* Nama + Phone */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field
-                id="reg-name"
-                name="name"
-                label="Nama Lengkap"
-                value={formData.name}
-                onChange={handleChange}
-                autoComplete="name"
-              />
-              <Field
-                id="reg-phone"
-                name="phone"
-                label="Nomor WhatsApp / HP"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                autoComplete="tel"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <Field id="reg-email" name="email" label="Email Aktif" type="email" value={formData.email} onChange={handleChange} autoComplete="email" />
+              <PasswordField id="reg-password" name="password" label="Kata Sandi" value={formData.password} onChange={handleChange} show={showPassword} onToggle={() => setShowPassword((p) => !p)} autoComplete="new-password" />
             </div>
 
-            {/* Email */}
-            <Field
-              id="reg-email"
-              name="email"
-              label="Email Aktif"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              autoComplete="email"
-            />
-
-            {/* Password + Confirm */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <PasswordField
-                id="reg-password"
-                name="password"
-                label="Kata Sandi"
-                value={formData.password}
-                onChange={handleChange}
-                show={showPassword}
-                onToggle={() => setShowPassword((p) => !p)}
-                autoComplete="new-password"
-              />
-              <PasswordField
-                id="reg-confirm-password"
-                name="confirmPassword"
-                label="Konfirmasi Kata Sandi"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                show={showPassword}
-                onToggle={() => setShowPassword((p) => !p)}
-                autoComplete="new-password"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <PasswordField id="reg-confirm-password" name="confirmPassword" label="Konfirmasi Sandi" value={formData.confirmPassword} onChange={handleChange} show={showPassword} onToggle={() => setShowPassword((p) => !p)} autoComplete="new-password" />
+              <Field id="reg-store-name" name="storeName" label="Nama Usaha" value={formData.storeName} onChange={handleChange}/>
             </div>
 
-            {/* === SECTION: DATA USAHA === */}
-            <div className="text-xs font-bold text-teal-700 uppercase tracking-wider mt-2 mb-1">
-              Data Usaha
-            </div>
-
-            {/* Nama Usaha */}
-            <Field
-              id="reg-store-name"
-              name="storeName"
-              label="Nama Usaha"
-              value={formData.storeName}
-              onChange={handleChange}
-              placeholder="Contoh: Warung Berkah"
-            />
-
-            {/* Kategori Usaha */}
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="reg-store-category"
-                className="text-xs sm:text-sm font-semibold text-ink"
-              >
+            <div className="flex flex-col gap-1">
+              <label htmlFor="reg-store-category" className="text-xs font-semibold text-ink">
                 Kategori Usaha
               </label>
               <select
@@ -225,110 +141,74 @@ export default function Register() {
                 name="storeCategory"
                 value={formData.storeCategory}
                 onChange={handleChange}
-                className="w-full h-11 px-3.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
+                className="h-10 w-full rounded-lg border border-[#d3dedf] bg-white px-3 text-sm text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
                 required
               >
-                <option value="">Pilih Kategori</option>
+                <option value="">Pilih kategori</option>
                 {CATEGORIES.map((c) => (
-                  <option key={c.value} value={c.value}>
-                    {c.label}
-                  </option>
+                  <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>
             </div>
 
-            {/* Deskripsi Usaha */}
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="reg-store-desc"
-                className="text-xs sm:text-sm font-semibold text-ink"
-              >
-                Deskripsi Usaha{" "}
-                <span className="text-muted font-normal">(opsional)</span>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="reg-store-desc" className="text-xs font-semibold text-ink">
+                Deskripsi Usaha <span className="font-normal text-muted">(opsional)</span>
               </label>
               <textarea
                 id="reg-store-desc"
                 name="storeDescription"
-                rows={3}
+                rows={2}
                 value={formData.storeDescription}
                 onChange={handleChange}
-                placeholder="Ceritakan tentang usaha Anda..."
-                className="w-full px-3.5 py-2.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15 resize-none"
+                placeholder="Ceritakan singkat tentang usaha Anda..."
+                className="w-full resize-none rounded-lg border border-[#d3dedf] px-3 py-2 text-sm text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
               />
             </div>
 
-            {/* Checkbox Persetujuan */}
-            <div className="flex items-start gap-2 mt-1">
+            <label htmlFor="reg-terms" className="flex items-start gap-2 text-xs text-muted">
               <input
                 type="checkbox"
                 id="reg-terms"
                 name="agreedToTerms"
-                className="w-4 h-4 mt-0.5 rounded text-teal-600 accent-teal-600 cursor-pointer shrink-0"
                 checked={formData.agreedToTerms}
                 onChange={handleChange}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded accent-teal-600"
                 required
               />
-              <label
-                htmlFor="reg-terms"
-                className="text-xs text-muted cursor-pointer select-none"
-              >
+              <span>
                 Saya menyetujui{" "}
-                <a
-                  href="#syarat"
-                  className="text-teal-600 font-semibold underline underline-offset-2"
-                >
+                <a href="#syarat" className="font-semibold text-teal-600 underline underline-offset-2">
                   Ketentuan Layanan
                 </a>{" "}
                 dan{" "}
-                <a
-                  href="#privasi"
-                  className="text-teal-600 font-semibold underline underline-offset-2"
-                >
+                <a href="#privasi" className="font-semibold text-teal-600 underline underline-offset-2">
                   Kebijakan Privasi
                 </a>{" "}
                 UMKNow.
-              </label>
-            </div>
+              </span>
+            </label>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-12 bg-amber-500 hover:bg-amber-400 disabled:opacity-60 disabled:cursor-not-allowed text-ink font-display font-bold text-sm sm:text-base rounded-lg transition-all duration-150 active:scale-[0.99] mt-2 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              className="mt-1 h-11 w-full rounded-lg bg-amber-500 font-display text-sm font-bold text-ink transition-all hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              <span>{loading ? "Memproses..." : "Buat Akun Toko Gratis"}</span>
-              {!loading && (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              )}
+              {loading ? "Memproses..." : "Buat Akun Toko Gratis"}
             </button>
           </form>
 
-          {/* Switch ke Login */}
-          <div className="mt-6 text-center text-xs sm:text-sm text-muted">
+          <div className="mt-4 text-center text-xs text-muted">
             Sudah memiliki akun toko?{" "}
-            <Link
-              to="/login"
-              className="text-teal-600 font-bold hover:underline ml-1"
-            >
+            <Link to="/login" className="ml-1 font-bold text-teal-600 hover:underline">
               Masuk di sini
             </Link>
           </div>
         </div>
       </div>
 
-      {/* ── PANEL KANAN: BRANDING ── */}
-      <div className="relative hidden md:flex flex-1 flex-col justify-center p-12 lg:p-16 bg-teal-900 text-white h-full overflow-hidden">
+      {/* ── PANEL KANAN: FOTO ── */}
+      <div className="relative hidden flex-1 overflow-hidden bg-teal-900 md:block">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -336,39 +216,27 @@ export default function Register() {
               "url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600&auto=format&fit=crop')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-900/80 via-teal-900/90 to-teal-900/95" />
-
-        <div className="relative z-10 max-w-[440px]">
-          <h2 className="font-display text-3xl lg:text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">
-            Usaha mandiri,
-            <br />
-            kelola rapi.
-          </h2>
-          <p className="text-base lg:text-lg text-white/80 leading-relaxed">
-            Sistem kasir dan catatan operasional toko yang siap digunakan
-            langsung dari ponselmu.
-          </p>
-        </div>
+        <div className="absolute inset-0 bg-teal-900/35" />
       </div>
+
+      <Modal
+        isOpen={showSuccess}
+        title="Akun berhasil dibuat"
+        message="Toko Anda sudah terdaftar. Cek email untuk verifikasi akun sebelum masuk."
+        actionLabel="Ke Halaman Masuk"
+        onClose={() => setShowSuccess(false)}
+        onAction={() => navigate("/login")}
+      />
     </div>
   );
 }
 
 /* ── Reusable Field Components ── */
 
-function Field({
-  id,
-  name,
-  label,
-  type = "text",
-  value,
-  onChange,
-  autoComplete,
-  placeholder,
-}) {
+function Field({ id, name, label, type = "text", value, onChange, autoComplete, placeholder }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs sm:text-sm font-semibold text-ink">
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-xs font-semibold text-ink">
         {label}
       </label>
       <input
@@ -379,26 +247,17 @@ function Field({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="w-full h-11 px-3.5 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
+        className="h-10 w-full rounded-lg border border-[#d3dedf] px-3 text-sm text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
         required
       />
     </div>
   );
 }
 
-function PasswordField({
-  id,
-  name,
-  label,
-  value,
-  onChange,
-  show,
-  onToggle,
-  autoComplete,
-}) {
+function PasswordField({ id, name, label, value, onChange, show, onToggle, autoComplete }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs sm:text-sm font-semibold text-ink">
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-xs font-semibold text-ink">
         {label}
       </label>
       <div className="relative flex items-center">
@@ -409,12 +268,12 @@ function PasswordField({
           autoComplete={autoComplete}
           value={value}
           onChange={onChange}
-          className="w-full h-11 pl-3.5 pr-10 text-sm text-ink bg-white border border-[#d3dedf] rounded-lg transition-colors focus:outline-none focus:border-teal-600 focus:ring-3 focus:ring-teal-600/15"
+          className="h-10 w-full rounded-lg border border-[#d3dedf] pl-3 pr-10 text-sm text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
           required
         />
         <button
           type="button"
-          className="absolute right-2.5 text-muted hover:text-ink transition-colors p-1"
+          className="absolute right-2.5 p-1 text-muted transition-colors hover:text-ink"
           onClick={onToggle}
           aria-label={show ? "Sembunyikan sandi" : "Tampilkan sandi"}
           tabIndex={-1}
@@ -428,16 +287,7 @@ function PasswordField({
 
 function EyeIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
       <circle cx="12" cy="12" r="3" />
     </svg>
@@ -446,16 +296,7 @@ function EyeIcon() {
 
 function EyeOffIcon() {
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
       <line x1="1" y1="1" x2="23" y2="23" />
     </svg>
