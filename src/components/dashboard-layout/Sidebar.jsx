@@ -19,24 +19,26 @@ const NAV_ITEMS = [
 
 export function Sidebar() {
   return (
-    <aside className="flex h-full w-60 shrink-0 flex-col border-r border-black/5 bg-white">
+    <aside className="flex h-full w-60 shrink-0 flex-col bg-[#0a3d3a]">
+      {/* Logo */}
       <div className="flex items-center gap-2.5 px-6 py-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-700 text-sm font-semibold text-white">
-          U
-        </div>
-        <span className="text-[15px] font-semibold text-stone-900">UMKNow</span>
+        <span className="text-lg font-extrabold tracking-tight">
+          <span className="text-white">UMK</span>
+          <span className="text-amber-400">Now</span>
+        </span>
       </div>
 
-      <nav className="flex flex-1 flex-col gap-0.5 px-3">
+      {/* Nav */}
+      <nav className="flex flex-1 flex-col gap-1 px-3">
         {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
           <NavLink
             key={path}
             to={path}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
+              `flex items-center gap-3 rounded-lg border-l-2 px-3 py-2.5 text-left text-sm transition-colors ${
                 isActive
-                  ? "bg-teal-50 font-medium text-teal-800"
-                  : "text-stone-500 hover:bg-stone-50 hover:text-stone-700"
+                  ? "border-amber-400 bg-white/10 font-medium text-white"
+                  : "border-transparent text-teal-100/70 hover:bg-white/5 hover:text-white"
               }`
             }
           >
@@ -45,7 +47,7 @@ export function Sidebar() {
                 <Icon
                   size={18}
                   strokeWidth={2}
-                  className={isActive ? "text-teal-700" : "text-stone-400"}
+                  className={isActive ? "text-amber-400" : "text-teal-100/50"}
                 />
                 {label}
               </>
@@ -53,6 +55,7 @@ export function Sidebar() {
           </NavLink>
         ))}
       </nav>
+
     </aside>
   );
 }
