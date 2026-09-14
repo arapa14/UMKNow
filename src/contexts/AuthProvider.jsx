@@ -99,6 +99,15 @@ export function AuthProvider({ children }) {
     setCurrentStore(null);
   };
 
+  const refreshAuth = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const authUser = session?.user || null;
+    setUser(authUser);
+    if (authUser) await loadUserData(authUser);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -109,6 +118,7 @@ export function AuthProvider({ children }) {
         register,
         login,
         logout,
+        refreshAuth,
       }}
     >
       {children}
