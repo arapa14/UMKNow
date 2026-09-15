@@ -1,5 +1,6 @@
 // src/pages/POS.jsx
 import { useState } from "react";
+import { ShoppingCart, Store, Search } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { usePOS } from "../hooks/usePOS";
 import ProductGrid from "../components/features/pos/ProductGrid";
@@ -41,8 +42,8 @@ export default function POS() {
 
   if (!storeId) {
     return (
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
-        <p className="text-3xl">🏪</p>
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center flex flex-col items-center">
+        <Store size={48} strokeWidth={1.5} className="text-amber-300" />
         <h2 className="mt-2 font-semibold text-amber-800">
           Belum ada toko aktif
         </h2>
@@ -79,25 +80,28 @@ export default function POS() {
           <h1 className="text-xl font-bold text-neutral-800">Kasir</h1>
           <button
             onClick={() => setMobileCartOpen(true)}
-            className="relative rounded-xl bg-green-600 px-3 py-2 text-xs font-medium text-white"
+            className="relative flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-medium text-white"
           >
-            🛒 Cart ({cartCount})
+            <ShoppingCart size={16} /> Cart ({cartCount})
           </button>
         </div>
 
         {/* Filter bar */}
         <div className="flex flex-col gap-3 rounded-2xl border border-neutral-100 bg-white p-3 shadow-sm sm:flex-row sm:items-center">
-          <input
-            type="text"
-            placeholder="🔍 Cari produk..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500 sm:max-w-xs"
-          />
+          <div className="relative w-full sm:max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} />
+            <input
+              type="text"
+              placeholder="Cari produk..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-xl border border-neutral-200 pl-9 pr-3 py-2 text-sm outline-none focus:border-emerald-500"
+            />
+          </div>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500 sm:max-w-xs"
+            className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 sm:max-w-xs"
           >
             <option value="">Semua Kategori</option>
             {categories.map((c) => (
@@ -197,12 +201,12 @@ function CartPanel({
       {/* Header */}
       <div className="flex items-center justify-between border-b border-neutral-100 px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="text-lg">🛒</span>
+          <ShoppingCart size={20} className="text-emerald-600" />
           <h2 className="font-semibold text-neutral-800">
             Cart{mobile && ` (${cartCount})`}
           </h2>
           {!mobile && cartCount > 0 && (
-            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
               {cartCount} item
             </span>
           )}
@@ -231,8 +235,8 @@ function CartPanel({
       <div className="flex-1 overflow-y-auto px-4">
         {cart.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center py-10 text-center">
-            <p className="text-3xl">🛒</p>
-            <p className="mt-2 text-sm text-neutral-400">
+            <ShoppingCart size={48} strokeWidth={1.5} className="text-neutral-300" />
+            <p className="mt-4 text-sm text-neutral-400">
               Klik produk untuk menambahkan
             </p>
           </div>
@@ -261,7 +265,7 @@ function CartPanel({
         <button
           onClick={onCheckout}
           disabled={cart.length === 0}
-          className="w-full rounded-xl bg-green-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 disabled:opacity-50"
+          className="w-full rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-50"
         >
           Bayar • {formatCurrency(subtotal)}
         </button>

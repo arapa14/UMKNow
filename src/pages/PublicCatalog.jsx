@@ -1,6 +1,7 @@
 // src/pages/PublicCatalog.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Search } from "lucide-react";
 import { getPublicCatalogBySlug } from "../services/publicCatalogService";
 import { formatCurrency } from "../utils/formatCurrency";
 
@@ -84,8 +85,8 @@ export default function PublicCatalog() {
   if (!store) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f7f5ef] px-4">
-        <div className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-sm">
-          <p className="text-5xl">🔍</p>
+        <div className="w-full max-w-sm rounded-2xl bg-white p-8 text-center shadow-sm flex flex-col items-center">
+          <Search size={48} strokeWidth={1.5} className="text-neutral-300" />
           <h1 className="mt-3 text-lg font-bold text-neutral-800">
             Toko Tidak Ditemukan
           </h1>
@@ -157,13 +158,16 @@ export default function PublicCatalog() {
         {/* Search & filter */}
         <div className="rounded-2xl border border-neutral-100 bg-white p-3 shadow-md">
           <div className="flex flex-col gap-2 sm:flex-row">
-            <input
-              type="text"
-              placeholder="🔍 Cari produk..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500"
-            />
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} />
+              <input
+                type="text"
+                placeholder="Cari produk..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-xl border border-neutral-200 pl-9 pr-3 py-2 text-sm outline-none focus:border-emerald-500"
+              />
+            </div>
             {categories.length > 0 && (
               <select
                 value={category}

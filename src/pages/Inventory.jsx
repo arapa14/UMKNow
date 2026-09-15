@@ -1,5 +1,13 @@
 // src/pages/Inventory.jsx
 import { useMemo, useState } from "react";
+import {
+  Package,
+  AlertTriangle,
+  RefreshCw,
+  Edit2,
+  Trash2,
+  Plus,
+} from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useProducts } from "../hooks/useProducts";
 import ProductFormModal from "../components/features/inventory/ProductFormModal";
@@ -96,25 +104,26 @@ export default function Inventory() {
         </div>
         <button
           onClick={handleOpenCreate}
-          className="rounded-xl bg-green-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-green-700"
+          className="flex items-center justify-center gap-1.5 rounded-xl bg-[#0a3d3a] px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#0a3d3a]/90"
         >
-          ➕ Tambah Produk
+          <Plus size={16} strokeWidth={2.5} />
+          Tambah Produk
         </button>
       </div>
 
       {/* Summary */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <MiniStat label="Total Produk" value={summary.total} icon="📦" />
+        <MiniStat label="Total Produk" value={summary.total} Icon={Package} />
         <MiniStat
           label="Stok Menipis"
           value={summary.lowStock}
-          icon="⚠️"
-          accent={summary.lowStock > 0 ? "red" : "green"}
+          Icon={AlertTriangle}
+          accent={summary.lowStock > 0 ? "red" : "emerald"}
         />
         <MiniStat
           label="Nilai Inventori"
           value={formatCurrency(summary.totalValue)}
-          icon="💰"
+          Icon={RpIcon}
           isText
         />
       </div>
@@ -126,12 +135,12 @@ export default function Inventory() {
           placeholder="🔍 Cari produk..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500 sm:max-w-xs"
+          className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 sm:max-w-xs"
         />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500 sm:max-w-xs"
+          className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 sm:max-w-xs"
         >
           <option value="">Semua Kategori</option>
           {categories.map((c) => (
@@ -140,12 +149,14 @@ export default function Inventory() {
             </option>
           ))}
         </select>
-        <label className="flex items-center gap-2 text-sm text-neutral-600">
+
+        {/* Custom checkbox */}
+        <label className="flex cursor-pointer select-none items-center gap-2 text-sm text-neutral-600">
           <input
             type="checkbox"
             checked={onlyActive}
             onChange={(e) => setOnlyActive(e.target.checked)}
-            className="h-4 w-4 rounded border-neutral-300 text-green-600"
+            className="h-4 w-4 rounded border-gray-300 text-emerald-600 accent-emerald-600 focus:ring-2 focus:ring-emerald-500/30"
           />
           Hanya Aktif
         </label>
@@ -209,17 +220,25 @@ export default function Inventory() {
 
 // ===== Sub-components =====
 
-function MiniStat({ label, value, icon, accent = "green", isText }) {
+function RpIcon({ size }) {
+  return (
+    <span style={{ fontSize: size * 0.8 }} className="font-bold">
+      Rp
+    </span>
+  );
+}
+
+function MiniStat({ label, value, Icon, accent = "emerald", isText }) {
   const colors = {
-    green: "bg-green-50 text-green-700",
-    red: "bg-red-50 text-red-700",
+    emerald: "bg-emerald-50 text-emerald-600",
+    red: "bg-red-50 text-red-600",
   };
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
       <div
-        className={`flex h-10 w-10 items-center justify-center rounded-xl ${colors[accent]}`}
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full p-2 ${colors[accent]}`}
       >
-        <span className="text-lg">{icon}</span>
+        {Icon && <Icon size={18} strokeWidth={2} />}
       </div>
       <div>
         <p className="text-xs text-neutral-500">{label}</p>
@@ -238,14 +257,26 @@ function ProductTable({ products, onEdit, onDelete, onAdjustStock }) {
     <div className="overflow-hidden rounded-2xl border border-neutral-100 bg-white shadow-sm">
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-neutral-50 text-left text-xs text-neutral-500">
+          <thead className="border-y border-gray-200 bg-gray-50 text-left">
             <tr>
-              <th className="px-4 py-3 font-medium">Produk</th>
-              <th className="px-4 py-3 font-medium">Kategori</th>
-              <th className="px-4 py-3 font-medium text-right">Harga</th>
-              <th className="px-4 py-3 font-medium text-center">Stok</th>
-              <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium text-right">Aksi</th>
+              <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-gray-500">
+                Produk
+              </th>
+              <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-gray-500">
+                Kategori
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                Harga
+              </th>
+              <th className="px-4 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                Stok
+              </th>
+              <th className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-gray-500">
+                Status
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                Aksi
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -268,7 +299,7 @@ function ProductTable({ products, onEdit, onDelete, onAdjustStock }) {
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-neutral-400">
-                            📦
+                            <Package size={16} />
                           </div>
                         )}
                       </div>
@@ -302,18 +333,17 @@ function ProductTable({ products, onEdit, onDelete, onAdjustStock }) {
                         {p.stock}
                       </button>
                       {isLow && (
-                        <span
-                          className="text-xs text-red-500"
+                        <AlertTriangle
+                          size={13}
+                          className="text-red-500"
                           title={`Min: ${min}`}
-                        >
-                          ⚠️
-                        </span>
+                        />
                       )}
                     </div>
                   </td>
                   <td className="px-4 py-3">
                     {p.is_active ? (
-                      <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700">
+                      <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
                         Aktif
                       </span>
                     ) : (
@@ -326,24 +356,24 @@ function ProductTable({ products, onEdit, onDelete, onAdjustStock }) {
                     <div className="flex justify-end gap-1">
                       <button
                         onClick={() => onAdjustStock(p)}
-                        className="rounded-lg p-2 text-neutral-500 hover:bg-green-50 hover:text-green-600"
+                        className="rounded-lg p-2 text-gray-400 transition hover:bg-emerald-50 hover:text-emerald-600"
                         title="Sesuaikan stok"
                       >
-                        🔄
+                        <RefreshCw size={16} />
                       </button>
                       <button
                         onClick={() => onEdit(p)}
-                        className="rounded-lg p-2 text-neutral-500 hover:bg-blue-50 hover:text-blue-600"
+                        className="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
                         title="Edit"
                       >
-                        ✏️
+                        <Edit2 size={16} />
                       </button>
                       <button
                         onClick={() => onDelete(p)}
-                        className="rounded-lg p-2 text-neutral-500 hover:bg-red-50 hover:text-red-600"
+                        className="rounded-lg p-2 text-gray-400 transition hover:bg-red-50 hover:text-red-500"
                         title="Hapus"
                       >
-                        🗑️
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </td>
@@ -360,7 +390,7 @@ function ProductTable({ products, onEdit, onDelete, onAdjustStock }) {
 function EmptyState({ onCreate, hasFilter }) {
   return (
     <div className="rounded-2xl border border-dashed border-neutral-200 bg-white p-10 text-center">
-      <p className="text-4xl">📦</p>
+      <Package size={40} className="mx-auto text-neutral-300" strokeWidth={1.5} />
       <h3 className="mt-3 font-semibold text-neutral-700">
         {hasFilter ? "Produk tidak ditemukan" : "Belum ada produk"}
       </h3>
@@ -372,9 +402,10 @@ function EmptyState({ onCreate, hasFilter }) {
       {!hasFilter && (
         <button
           onClick={onCreate}
-          className="mt-4 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+          className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-[#0a3d3a] px-4 py-2 text-sm font-medium text-white hover:bg-[#0a3d3a]/90"
         >
-          ➕ Tambah Produk
+          <Plus size={16} strokeWidth={2.5} />
+          Tambah Produk
         </button>
       )}
     </div>

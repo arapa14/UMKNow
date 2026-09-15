@@ -1,8 +1,15 @@
 // src/components/features/pos/PaymentModal.jsx
 import { useState } from "react";
+import { Banknote, QrCode, Landmark } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
 const QUICK_CASH = [5000, 10000, 20000, 50000, 100000];
+
+const PAYMENT_METHODS = [
+  { key: "cash", label: "Cash", Icon: Banknote },
+  { key: "qris", label: "QRIS", Icon: QrCode },
+  { key: "transfer", label: "Transfer", Icon: Landmark },
+];
 
 export default function PaymentModal({
   open,
@@ -53,7 +60,8 @@ export default function PaymentModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-neutral-100 px-5 py-4">
           <h2 className="font-semibold text-neutral-800">Pembayaran</h2>
           <button
             onClick={onClose}
@@ -64,9 +72,10 @@ export default function PaymentModal({
           </button>
         </div>
 
+        {/* Content — scrollable, footer stays fixed */}
         <form
           onSubmit={handleSubmit}
-          className="flex-1 space-y-4 overflow-y-auto px-5 py-4"
+          className="flex-1 space-y-4 overflow-y-auto p-6"
         >
           {error && (
             <div className="rounded-lg border border-red-100 bg-red-50 px-3 py-2 text-xs text-red-700">
@@ -75,9 +84,9 @@ export default function PaymentModal({
           )}
 
           {/* Total */}
-          <div className="rounded-xl bg-green-50 p-4 text-center">
-            <p className="text-xs text-green-700">Total Tagihan</p>
-            <p className="mt-1 text-2xl font-bold text-green-700">
+          <div className="rounded-xl bg-emerald-50 p-4 text-center">
+            <p className="text-xs text-emerald-700">Total Tagihan</p>
+            <p className="mt-1 text-2xl font-bold text-emerald-700">
               {formatCurrency(finalTotal)}
             </p>
           </div>
@@ -88,22 +97,19 @@ export default function PaymentModal({
               Metode Pembayaran
             </p>
             <div className="grid grid-cols-3 gap-2">
-              {[
-                { key: "cash", label: "💵 Cash" },
-                { key: "qris", label: "📱 QRIS" },
-                { key: "transfer", label: "🏦 Transfer" },
-              ].map((m) => (
+              {PAYMENT_METHODS.map(({ key, label, Icon }) => (
                 <button
-                  key={m.key}
+                  key={key}
                   type="button"
-                  onClick={() => setMethod(m.key)}
-                  className={`rounded-xl border px-2 py-2 text-xs font-medium transition ${
-                    method === m.key
-                      ? "border-green-600 bg-green-50 text-green-700"
-                      : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+                  onClick={() => setMethod(key)}
+                  className={`flex flex-col items-center gap-1.5 rounded-xl border px-2 py-3 text-xs font-medium transition ${
+                    method === key
+                      ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                      : "border-gray-200 bg-white text-gray-600 hover:bg-neutral-50"
                   }`}
                 >
-                  {m.label}
+                  <Icon size={18} strokeWidth={1.75} />
+                  {label}
                 </button>
               ))}
             </div>
@@ -122,18 +128,18 @@ export default function PaymentModal({
                   value={paid}
                   onChange={(e) => setPaid(e.target.value)}
                   placeholder="0"
-                  className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-lg font-semibold outline-none focus:border-green-500"
+                  className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-lg font-semibold outline-none focus:border-emerald-500"
                   autoFocus
                 />
               </label>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {QUICK_CASH.map((v) => (
                   <button
                     key={v}
                     type="button"
                     onClick={() => setPaid(String(v))}
-                    className="rounded-lg border border-neutral-200 bg-white px-2.5 py-1 text-xs font-medium text-neutral-600 hover:bg-neutral-50"
+                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-700 transition-colors hover:border-emerald-200 hover:bg-emerald-50"
                   >
                     {formatCurrency(v)}
                   </button>
@@ -141,7 +147,7 @@ export default function PaymentModal({
                 <button
                   type="button"
                   onClick={() => setPaid(String(finalTotal))}
-                  className="rounded-lg border border-green-200 bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700 hover:bg-green-100"
+                  className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1.5 text-sm font-medium text-emerald-800 hover:bg-emerald-200"
                 >
                   Uang Pas
                 </button>
@@ -149,7 +155,7 @@ export default function PaymentModal({
 
               {paidNum > 0 && (
                 <div
-                  className={`rounded-xl px-3 py-2 text-sm ${
+                  className={`mt-4 rounded-xl px-3 py-2 text-sm ${
                     remaining > 0
                       ? "bg-red-50 text-red-700"
                       : "bg-blue-50 text-blue-700"
@@ -187,7 +193,7 @@ export default function PaymentModal({
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
                 placeholder="0"
-                className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500"
+                className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </label>
             <label className="block">
@@ -200,7 +206,7 @@ export default function PaymentModal({
                 value={tax}
                 onChange={(e) => setTax(e.target.value)}
                 placeholder="0"
-                className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500"
+                className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </label>
           </div>
@@ -214,12 +220,13 @@ export default function PaymentModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Contoh: Pelanggan langganan"
-              className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-green-500"
+              className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500"
             />
           </label>
         </form>
 
-        <div className="flex justify-end gap-2 border-t border-neutral-100 px-5 py-4">
+        {/* Footer — sticky */}
+        <div className="flex shrink-0 justify-end gap-2 border-t border-neutral-100 bg-white p-4">
           <button
             type="button"
             onClick={onClose}
@@ -231,7 +238,7 @@ export default function PaymentModal({
           <button
             onClick={handleSubmit}
             disabled={submitting || (method === "cash" && paidNum < finalTotal)}
-            className="rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50"
+            className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
           >
             {submitting ? "Memproses..." : "Bayar & Cetak"}
           </button>

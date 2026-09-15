@@ -1,4 +1,5 @@
 // src/components/features/pos/CartItem.jsx
+import { Package } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
 export default function CartItem({
@@ -10,8 +11,16 @@ export default function CartItem({
 }) {
   return (
     <div className="flex gap-3 border-b border-neutral-100 py-3 last:border-0">
-      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-xl">
-        📦
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
+        {item.image_url ? (
+          <img
+            src={item.image_url}
+            alt={item.product_name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <Package size={18} className="text-neutral-400" />
+        )}
       </div>
 
       <div className="min-w-0 flex-1">
@@ -43,7 +52,7 @@ export default function CartItem({
               type="number"
               value={item.quantity}
               onChange={(e) => onSetQty(item.product_id, e.target.value)}
-              className="h-7 w-12 rounded-lg border border-neutral-200 text-center text-sm outline-none focus:border-green-500"
+              className="h-7 w-12 rounded-lg border border-neutral-200 text-center text-sm outline-none focus:border-emerald-500"
               min="1"
               max={item.stock || undefined}
             />
