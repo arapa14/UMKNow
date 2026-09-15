@@ -1,6 +1,6 @@
 // src/components/features/pos/CartItem.jsx
-import { Package } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import ProductImage from "./ProductImage";
 
 export default function CartItem({
   item,
@@ -12,15 +12,12 @@ export default function CartItem({
   return (
     <div className="flex gap-3 border-b border-neutral-100 py-3 last:border-0">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-neutral-100">
-        {item.image_url ? (
-          <img
-            src={item.image_url}
-            alt={item.product_name}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <Package size={18} className="text-neutral-400" />
-        )}
+        <ProductImage
+          src={item.image_url}
+          alt={item.product_name}
+          className="h-full w-full object-cover"
+          iconSize={18}
+        />
       </div>
 
       <div className="min-w-0 flex-1">

@@ -73,9 +73,9 @@ export default function POS() {
   };
 
   return (
-    <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-[1fr_360px]">
+    <div className="grid grid-cols-1 gap-4 lg:h-full lg:min-h-0 lg:grid-cols-[1fr_360px] lg:overflow-hidden">
       {/* ==== Kiri: Produk ==== */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:min-h-0">
         {/* Header mobile */}
         <div className="flex items-center justify-between lg:hidden">
           <h1 className="text-xl font-bold text-neutral-800">Kasir</h1>
@@ -120,12 +120,14 @@ export default function POS() {
           </div>
         )}
 
-        {/* Grid produk */}
-        <ProductGrid products={products} loading={loading} onPick={addToCart} />
+        {/* Grid produk: pada desktop hanya area ini yang di-scroll. */}
+        <div className="lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:pr-1">
+          <ProductGrid products={products} loading={loading} onPick={addToCart} />
+        </div>
       </div>
 
       {/* ==== Kanan: Cart (desktop) ==== */}
-      <aside className="hidden flex-col rounded-2xl border border-neutral-100 bg-white shadow-sm lg:flex">
+      <aside className="hidden min-h-0 flex-col rounded-2xl border border-neutral-100 bg-white shadow-sm lg:flex">
         <CartPanel
           cart={cart}
           subtotal={subtotal}
@@ -200,7 +202,7 @@ function CartPanel({
   return (
     <>
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-neutral-100 px-4 py-3">
+      <div className="flex shrink-0 items-center justify-between border-b border-neutral-100 px-4 py-3">
         <div className="flex items-center gap-2">
           <ShoppingCart size={20} className="text-emerald-600" />
           <h2 className="font-semibold text-neutral-800">
@@ -256,7 +258,7 @@ function CartPanel({
       </div>
 
       {/* Footer */}
-      <div className="border-t border-neutral-100 p-4">
+      <div className="shrink-0 border-t border-neutral-100 p-4">
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm text-neutral-500">Subtotal</span>
           <span className="text-lg font-bold text-neutral-800">

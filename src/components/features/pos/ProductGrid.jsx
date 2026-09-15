@@ -1,6 +1,7 @@
 // src/components/features/pos/ProductGrid.jsx
 import { Package } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import ProductImage from "./ProductImage";
 
 export default function ProductGrid({ products, loading, onPick }) {
   if (loading) {
@@ -41,17 +42,11 @@ export default function ProductGrid({ products, loading, onPick }) {
             className="group flex flex-col overflow-hidden rounded-2xl border border-neutral-100 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <div className="aspect-square w-full overflow-hidden bg-neutral-100">
-              {p.image_url ? (
-                <img
-                  src={p.image_url}
-                  alt={p.name}
-                  className="h-full w-full object-cover transition group-hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-neutral-50">
-                  <Package size={32} strokeWidth={1.5} className="text-neutral-300" />
-                </div>
-              )}
+              <ProductImage
+                src={p.image_url}
+                alt={p.name}
+                className="h-full w-full object-cover transition group-hover:scale-105"
+              />
             </div>
             <div className="flex flex-1 flex-col p-3">
               <p className="line-clamp-2 text-sm font-medium text-neutral-800">

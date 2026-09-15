@@ -77,6 +77,7 @@ export function usePOS(storeId) {
           product_name: product.name,
           price: Number(product.price),
           cost_price: 0,
+          image_url: product.image_url ?? null,
           quantity: 1,
           stock: product.stock,
         },
