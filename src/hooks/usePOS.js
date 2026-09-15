@@ -3,23 +3,17 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { checkout, getPosProducts } from "../services/posService";
 
 export function usePOS(storeId) {
-  // Products
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  // Filters
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-
-  // Cart
   const [cart, setCart] = useState([]);
-
-  // Checkout
   const [submitting, setSubmitting] = useState(false);
 
-  // ===== Fetch products =====
+  // Fetch products
   useEffect(() => {
     if (!storeId) return;
     let ignore = false;
@@ -47,7 +41,7 @@ export function usePOS(storeId) {
 
   const refetch = useCallback(() => setRefreshKey((k) => k + 1), []);
 
-  // ===== Derived =====
+  // Derived
   const categories = useMemo(() => {
     const set = new Set();
     products.forEach((p) => p.category && set.add(p.category));
@@ -64,12 +58,11 @@ export function usePOS(storeId) {
     [cart],
   );
 
-  // ===== Cart actions =====
+  // Cart actions
   const addToCart = useCallback((product) => {
     setCart((prev) => {
       const existing = prev.find((it) => it.product_id === product.id);
       if (existing) {
-        // Jangan melebihi stok
         if (existing.quantity + 1 > product.stock) return prev;
         return prev.map((it) =>
           it.product_id === product.id
@@ -83,7 +76,7 @@ export function usePOS(storeId) {
           product_id: product.id,
           product_name: product.name,
           price: Number(product.price),
-          cost_price: 0, // isi kalau ada kolom cost di products
+          cost_price: 0,
           quantity: 1,
           stock: product.stock,
         },
@@ -132,11 +125,12 @@ export function usePOS(storeId) {
 
   const clearCart = useCallback(() => setCart([]), []);
 
-  // ===== Checkout =====
+  // Checkout — sekarang atomic via RPC
   const submitCheckout = useCallback(
     async (payment) => {
       if (!storeId) throw new Error("Store belum dipilih");
       if (cart.length === 0) throw new Error("Cart kosong");
+      if (submitting) throw new Error("Sedang memproses, mohon tunggu...");
 
       setSubmitting(true);
       try {
@@ -146,28 +140,25 @@ export function usePOS(storeId) {
           payment,
         });
         clearCart();
-        refetch(); // refresh produk karena stok berubah
+        refetch();
         return result;
       } finally {
         setSubmitting(false);
       }
     },
-    [storeId, cart, clearCart, refetch],
+    [storeId, cart, clearCart, refetch, submitting],
   );
 
   return {
-    // products
     products,
     categories,
     loading,
     error,
     refetch,
-    // filters
     search,
     setSearch,
     category,
     setCategory,
-    // cart
     cart,
     cartCount,
     subtotal,
@@ -177,7 +168,6 @@ export function usePOS(storeId) {
     decrement,
     removeFromCart,
     clearCart,
-    // checkout
     submitCheckout,
     submitting,
   };
