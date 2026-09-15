@@ -70,9 +70,10 @@ export default function Dashboard() {
           {/* Tombol Refresh */}
           <button
             onClick={refetch}
-            className="flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-medium text-neutral-600 shadow-sm hover:bg-neutral-50 hover:text-neutral-800 transition-all duration-150"
+            disabled={loading}
+            className="flex items-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-medium text-neutral-600 shadow-sm hover:bg-neutral-50 hover:text-neutral-800 transition-all duration-150 active:scale-95 disabled:opacity-50"
           >
-            <RefreshCw size={13} />
+            <RefreshCw size={13} className={loading ? "animate-spin" : ""} />
             Refresh
           </button>
         </div>

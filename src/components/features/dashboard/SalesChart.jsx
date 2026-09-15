@@ -27,13 +27,13 @@ export default function SalesChart({ data = [] }) {
   }
 
   const max = Math.max(...data.map((d) => d.total), 1);
-  const W = 100;
-  const H = 44;
-  const PAD_X = 2;
+  const W = 800;
+  const H = 240;
+  const PAD_X = 20;
 
   const points = data.map((d, i) => {
     const x = PAD_X + (i / (data.length - 1 || 1)) * (W - PAD_X * 2);
-    const y = H - (d.total / max) * (H - 4);
+    const y = H - 20 - (d.total / max) * (H - 40);
     return { x, y, ...d };
   });
 
@@ -53,8 +53,7 @@ export default function SalesChart({ data = [] }) {
     <div className="w-full">
       <svg
         viewBox={`0 0 ${W} ${H}`}
-        preserveAspectRatio="none"
-        className="h-48 w-full"
+        className="w-full h-auto drop-shadow-sm"
       >
         <defs>
           <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -71,7 +70,7 @@ export default function SalesChart({ data = [] }) {
           d={pathLine}
           fill="none"
           stroke={BRAND}
-          strokeWidth="1.4"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -80,9 +79,9 @@ export default function SalesChart({ data = [] }) {
         {points.map((p, i) => (
           <g key={i}>
             {/* Lingkaran luar (halo) */}
-            <circle cx={p.x} cy={p.y} r="1.8" fill="white" />
+            <circle cx={p.x} cy={p.y} r="6" fill="white" />
             {/* Lingkaran dalam */}
-            <circle cx={p.x} cy={p.y} r="1" fill={BRAND} />
+            <circle cx={p.x} cy={p.y} r="4" fill={BRAND} />
           </g>
         ))}
       </svg>

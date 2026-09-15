@@ -1,5 +1,6 @@
 // src/components/features/bookkeeping/TransactionTable.jsx
 import { useMemo, useState } from "react";
+import { Inbox } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { formatDateTime } from "../../../utils/formatDate";
 
@@ -17,9 +18,9 @@ export default function TransactionTable({ transactions = [], onRowClick }) {
 
   if (transactions.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-neutral-200 bg-white p-10 text-center">
-        <p className="text-3xl">🧾</p>
-        <p className="mt-2 text-sm text-neutral-500">
+      <div className="rounded-lg border border-solid border-gray-200 bg-gray-50 p-10 text-center">
+        <Inbox className="mx-auto mb-3 h-10 w-10 text-gray-300" />
+        <p className="text-sm text-gray-500 text-center">
           Belum ada transaksi di periode ini
         </p>
       </div>
@@ -69,9 +70,8 @@ export default function TransactionTable({ transactions = [], onRowClick }) {
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-neutral-100 px-4 py-3 text-xs text-neutral-500">
+        <div className="flex flex-col gap-2 border-t border-neutral-100 px-4 py-3 text-xs text-neutral-500 sm:flex-row sm:items-center sm:justify-between">
           <span>
             {transactions.length} transaksi — halaman {page} dari {totalPages}
           </span>

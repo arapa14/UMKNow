@@ -37,7 +37,7 @@ export default function ReceiptPreview({ open, onClose, transaction, store }) {
             </button>
             <button
               onClick={handlePrint}
-              className="rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+              className="rounded-xl bg-[#0a3d3a] px-4 py-2 text-sm font-medium text-white hover:bg-[#0a3d3a]/90"
             >
               🖨️ Print Struk
             </button>

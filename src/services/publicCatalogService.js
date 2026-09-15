@@ -11,7 +11,7 @@ export async function getPublicCatalogBySlug(slug) {
   // 1. Ambil toko
   const { data: store, error: storeErr } = await supabase
     .from("stores")
-    .select("id, name, slug, category, description, address, phone, logo_url")
+    .select("id, name, slug, category, description, address, phone, logo_url, founded_year, created_at")
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle();

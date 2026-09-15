@@ -1,5 +1,6 @@
 // src/components/features/settings/UserProfileTab.jsx
 import { useState } from "react";
+import { CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function UserProfileTab({ profile, onSave, saving }) {
   // ✅ Lazy init — dijalankan SEKALI saat mount
@@ -23,34 +24,34 @@ export default function UserProfileTab({ profile, onSave, saving }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Header */}
-      <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgb(0,0,0,0.03)]">
         <div className="flex items-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 text-2xl font-bold text-green-700">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-2xl font-bold text-slate-600">
             {(form.name || "U").charAt(0).toUpperCase()}
           </div>
           <div>
-            <h2 className="font-semibold text-neutral-800">
+            <h2 className="font-semibold text-slate-900">
               {form.name || "Pengguna"}
             </h2>
-            <p className="text-sm text-neutral-500">{form.email || "—"}</p>
-            <span
-              className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                profile?.is_verified
-                  ? "bg-green-50 text-green-700"
-                  : "bg-amber-50 text-amber-700"
-              }`}
-            >
-              {profile?.is_verified
-                ? "✅ Terverifikasi"
-                : "⏳ Belum verifikasi"}
-            </span>
+            <p className="text-sm text-slate-500">{form.email || "—"}</p>
+            {profile?.is_verified ? (
+              <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-600/20">
+                <CheckCircle2 size={12} />
+                Terverifikasi
+              </span>
+            ) : (
+              <span className="mt-2 inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-amber-600/20">
+                <AlertCircle size={12} />
+                Belum Verifikasi
+              </span>
+            )}
           </div>
         </div>
       </div>
 
       {/* Form */}
-      <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
-        <h3 className="mb-4 font-semibold text-neutral-800">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_2px_10px_rgb(0,0,0,0.03)]">
+        <h3 className="mb-4 font-semibold text-slate-900">
           Informasi Pribadi
         </h3>
 
@@ -91,11 +92,11 @@ export default function UserProfileTab({ profile, onSave, saving }) {
           </Field>
         </div>
 
-        <div className="mt-5 flex justify-end">
+        <div className="mt-6 flex justify-end border-t border-slate-100 pt-5">
           <button
             type="submit"
             disabled={saving}
-            className="rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-60"
+            className="rounded-xl bg-[#0a3d3a] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0a3d3a]/90 disabled:opacity-60"
           >
             {saving ? "Menyimpan..." : "Simpan Perubahan"}
           </button>
@@ -106,16 +107,21 @@ export default function UserProfileTab({ profile, onSave, saving }) {
         .input {
           width: 100%;
           border-radius: 0.75rem;
-          border: 1px solid #e5e5e5;
-          background: #fff;
-          padding: 0.55rem 0.75rem;
+          border: 1px solid #e2e8f0;
+          background: rgba(248, 250, 252, 0.5);
+          padding: 0.625rem 1rem;
           font-size: 0.875rem;
-          color: #262626;
+          color: #0f172a;
           outline: none;
+          transition: all 0.15s ease;
+        }
+        .input:hover {
+          border-color: #cbd5e1;
         }
         .input:focus {
-          border-color: #16a34a;
-          box-shadow: 0 0 0 3px rgba(22,163,74,0.15);
+          background: #fff;
+          border-color: #0a3d3a;
+          box-shadow: 0 0 0 3px rgba(10,61,58,0.12);
         }
       `}</style>
     </form>
@@ -125,12 +131,12 @@ export default function UserProfileTab({ profile, onSave, saving }) {
 function Field({ label, hint, children }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-xs font-medium text-neutral-600">
+      <span className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
       </span>
       {children}
       {hint && (
-        <span className="mt-1 block text-[10px] text-amber-600">{hint}</span>
+        <span className="mt-1.5 block text-xs text-amber-600">{hint}</span>
       )}
     </label>
   );

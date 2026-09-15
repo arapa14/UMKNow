@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import { Navbar } from "./Navbar";
 import { useAuth } from "../../hooks/useAuth";
+import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   const { logout, user, currentStore } = useAuth();
@@ -17,6 +18,25 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen w-full bg-gray-50">
+      <Toaster 
+        position="top-center" 
+        toastOptions={{
+          className: 'text-sm font-medium',
+          style: {
+            borderRadius: '12px',
+            background: '#333',
+            color: '#fff',
+          },
+          success: {
+            style: { background: '#0a3d3a' },
+            iconTheme: { primary: '#fff', secondary: '#0a3d3a' }
+          },
+          error: {
+            style: { background: '#ef4444' },
+            iconTheme: { primary: '#fff', secondary: '#ef4444' }
+          }
+        }}
+      />
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed((v) => !v)}

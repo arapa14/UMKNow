@@ -1,11 +1,15 @@
 // src/components/features/bookkeeping/RevenueChart.jsx
+import { BarChart3 } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
 export default function RevenueChart({ data = [] }) {
   if (!data.length) {
     return (
-      <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
-        Belum ada data untuk periode ini
+      <div className="flex h-64 flex-col items-center justify-center rounded-lg border border-solid border-gray-200 bg-gray-50 text-center">
+        <BarChart3 className="mx-auto mb-3 h-10 w-10 text-gray-300" />
+        <p className="text-sm text-gray-500">
+          Belum ada data untuk periode ini
+        </p>
       </div>
     );
   }

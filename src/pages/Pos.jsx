@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ShoppingCart, Store, Search } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { usePOS } from "../hooks/usePOS";
+import toast from "react-hot-toast";
 import ProductGrid from "../components/features/pos/ProductGrid";
 import CartItem from "../components/features/pos/CartItem";
 import PaymentModal from "../components/features/pos/PaymentModal";
@@ -62,7 +63,7 @@ export default function POS() {
       setReceiptOpen(true);
       setMobileCartOpen(false);
     } catch (err) {
-      alert("Checkout gagal: " + err.message);
+      toast.error("Checkout gagal: " + err.message);
     }
   };
 

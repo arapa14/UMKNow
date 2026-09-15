@@ -1,4 +1,6 @@
 // src/components/features/bookkeeping/PeriodFilter.jsx
+import { CalendarRange } from "lucide-react";
+
 const PRESETS = [
   { key: "today", label: "Hari ini" },
   { key: "7d", label: "7 Hari" },
@@ -16,16 +18,20 @@ export default function PeriodFilter({
   const isCustom = preset === "custom";
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <div className="flex flex-wrap rounded-xl border border-neutral-200 bg-white p-1 shadow-sm">
+    // Container utama: flex wrap agar otomatis turun baris jika layar HP,
+    // tapi tetap sebaris penuh di Desktop.
+    <div className="flex flex-wrap items-center justify-end gap-2 w-full">
+      
+      {/* Group Tombol Presets */}
+      <div className="flex flex-wrap items-center gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm">
         {PRESETS.map((p) => (
           <button
             key={p.key}
             onClick={() => onPresetChange(p.key)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
               preset === p.key
-                ? "bg-green-600 text-white shadow"
-                : "text-neutral-600 hover:bg-neutral-100"
+                ? "bg-[#0a3d3a] text-white shadow"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
             {p.label}
@@ -33,34 +39,36 @@ export default function PeriodFilter({
         ))}
         <button
           onClick={() => onPresetChange("custom")}
-          className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
             isCustom
-              ? "bg-green-600 text-white shadow"
-              : "text-neutral-600 hover:bg-neutral-100"
+              ? "bg-[#0a3d3a] text-white shadow"
+              : "text-gray-600 hover:bg-gray-100"
           }`}
         >
-          📅 Custom
+          <CalendarRange size={14} />
+          Custom
         </button>
       </div>
 
+      {/* Input Tanggal Custom (Muncul di sebelahnya jika desktop, turun ke bawah jika mobile) */}
       {isCustom && (
-        <div className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white p-2 shadow-sm">
+        <div className="flex animate-in fade-in slide-in-from-left-2 items-center gap-1.5 rounded-xl border border-gray-200 bg-white p-1.5 shadow-sm">
           <input
             type="date"
             value={customRange.startDate}
             onChange={(e) =>
               onCustomRangeChange({ ...customRange, startDate: e.target.value })
             }
-            className="rounded-lg border border-neutral-200 px-2 py-1 text-xs"
+            className="w-28.75 rounded-lg border-none bg-gray-50 px-2 py-1 text-xs text-gray-700 outline-none hover:bg-gray-100 focus:bg-white focus:ring-2 focus:ring-[#0a3d3a]/20 cursor-pointer"
           />
-          <span className="text-neutral-400">—</span>
+          <span className="text-gray-400 font-medium">—</span>
           <input
             type="date"
             value={customRange.endDate}
             onChange={(e) =>
               onCustomRangeChange({ ...customRange, endDate: e.target.value })
             }
-            className="rounded-lg border border-neutral-200 px-2 py-1 text-xs"
+            className="w-28.75 rounded-lg border-none bg-gray-50 px-2 py-1 text-xs text-gray-700 outline-none hover:bg-gray-100 focus:bg-white focus:ring-2 focus:ring-[#0a3d3a]/20 cursor-pointer"
           />
         </div>
       )}

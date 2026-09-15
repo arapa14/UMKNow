@@ -7,9 +7,11 @@ import {
   Edit2,
   Trash2,
   Plus,
+  Search,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useProducts } from "../hooks/useProducts";
+import toast from "react-hot-toast";
 import ProductFormModal from "../components/features/inventory/ProductFormModal";
 import StockAdjustModal from "../components/features/inventory/StockAdjustModal";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -69,7 +71,7 @@ export default function Inventory() {
       await remove(confirmDelete.id);
       setConfirmDelete(null);
     } catch (err) {
-      alert("Gagal hapus: " + err.message);
+      toast.error("Gagal hapus: " + err.message);
     }
   };
 
@@ -130,13 +132,16 @@ export default function Inventory() {
 
       {/* Filter bar */}
       <div className="flex flex-col gap-3 rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
-        <input
-          type="text"
-          placeholder="🔍 Cari produk..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-emerald-500 sm:max-w-xs"
-        />
+        <div className="relative w-full sm:max-w-xs">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" size={16} />
+          <input
+            type="text"
+            placeholder="Cari produk..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-xl border border-neutral-200 pl-9 pr-3 py-2 text-sm outline-none focus:border-emerald-500"
+          />
+        </div>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}

@@ -1,7 +1,9 @@
 // src/pages/Bookkeeping.jsx
 import { useMemo, useState } from "react";
+import { Download, Trophy, Receipt, Store } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useBookkeeping, getDateRange } from "../hooks/useBookkeeping";
+import toast from "react-hot-toast";
 import PeriodFilter from "../components/features/bookkeeping/PeriodFilter";
 import PLSummary from "../components/features/bookkeeping/PLSummary";
 import RevenueChart from "../components/features/bookkeeping/RevenueChart";
@@ -37,10 +39,9 @@ export default function Bookkeeping() {
 
   const [detailId, setDetailId] = useState(null);
 
-  // Export CSV
   const handleExport = () => {
     if (!txSummary?.transactions?.length) {
-      return alert("Tidak ada transaksi untuk diexport");
+      return toast.error("Tidak ada transaksi untuk diexport");
     }
     const csv = transactionsToCSV(txSummary.transactions);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -55,8 +56,8 @@ export default function Bookkeeping() {
   if (!storeId) {
     return (
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
-        <p className="text-3xl">🏪</p>
-        <h2 className="mt-2 font-semibold text-amber-800">
+        <Store className="mx-auto mb-2 h-8 w-8 text-amber-500" />
+        <h2 className="font-semibold text-amber-800">
           Belum ada toko aktif
         </h2>
       </div>
@@ -66,7 +67,7 @@ export default function Bookkeeping() {
   return (
     <div className="space-y-5">
       {/* Header */}
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-neutral-800">
             Laporan Keuangan
@@ -76,7 +77,7 @@ export default function Bookkeeping() {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center md:ml-auto md:justify-end">
           <PeriodFilter
             preset={preset}
             onPresetChange={setPreset}
@@ -85,9 +86,10 @@ export default function Bookkeeping() {
           />
           <button
             onClick={handleExport}
-            className="rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-medium text-neutral-600 shadow-sm hover:bg-neutral-50"
+            className="flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-xs font-medium text-neutral-600 shadow-sm hover:bg-neutral-50 md:self-start"
           >
-            📥 Export CSV
+            <Download size={14} />
+            Export CSV
           </button>
         </div>
       </div>
@@ -109,15 +111,16 @@ export default function Bookkeeping() {
 
           {/* Chart + Top Products */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm lg:col-span-2">
+            <div className="rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm sm:p-5 lg:col-span-2">
               <h2 className="mb-3 font-semibold text-neutral-800">
                 Tren Harian
               </h2>
               <RevenueChart data={profitLoss?.byDay || []} />
             </div>
-            <div className="rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
-              <h2 className="mb-3 font-semibold text-neutral-800">
-                🏆 Top 5 Produk
+            <div className="rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm sm:p-5">
+              <h2 className="mb-3 flex items-center gap-2 font-semibold text-gray-700">
+                <Trophy size={18} className="text-amber-500" />
+                Top 5 Produk
               </h2>
               <TopProducts products={topProducts} />
             </div>
@@ -128,26 +131,31 @@ export default function Bookkeeping() {
             <MiniStat
               label="Total Transaksi"
               value={txSummary?.totalTransactions || 0}
+              icon="receipt"
             />
             <MiniStat
               label="Rata-rata Transaksi"
               value={formatRupiah(txSummary?.avgOrderValue || 0)}
+              icon="trend"
             />
             <MiniStat
               label="Metode Terbanyak"
               value={topMethod(txSummary?.byMethod)}
+              icon="method"
             />
             <MiniStat
               label="Periode"
               value={`${range.startDate} → ${range.endDate}`}
+              icon="calendar"
               small
             />
           </div>
 
           {/* Transactions */}
           <div>
-            <h2 className="mb-3 font-semibold text-neutral-800">
-              🧾 Detail Transaksi
+            <h2 className="mb-3 flex items-center gap-2 font-semibold text-gray-700">
+              <Receipt size={18} className="text-neutral-500" />
+              Detail Transaksi
             </h2>
             <TransactionTable
               transactions={txSummary?.transactions || []}
@@ -183,12 +191,37 @@ function topMethod(byMethod) {
   return entries.sort((a, b) => b[1] - a[1])[0][0].toUpperCase();
 }
 
-function MiniStat({ label, value, small }) {
+function MiniStatIcon({ icon }) {
+  const cls = "absolute right-3 top-3 h-4 w-4 text-neutral-300";
+  switch (icon) {
+    case "receipt":
+      return <ReceiptIcon className={cls} />;
+    case "trend":
+      return <TrendIcon className={cls} />;
+    case "method":
+      return <MethodIcon className={cls} />;
+    case "calendar":
+      return <CalendarIcon className={cls} />;
+    default:
+      return null;
+  }
+}
+
+// Lightweight lucide re-exports (avoid extra import clutter above)
+import {
+  Receipt as ReceiptIcon,
+  TrendingUp as TrendIcon,
+  CreditCard as MethodIcon,
+  Calendar as CalendarIcon,
+} from "lucide-react";
+
+function MiniStat({ label, value, small, icon }) {
   return (
-    <div className="rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
-      <p className="text-xs text-neutral-500">{label}</p>
+    <div className="relative rounded-2xl border border-neutral-100 bg-white p-4 shadow-sm">
+      <MiniStatIcon icon={icon} />
+      <p className="pr-5 text-xs text-neutral-500">{label}</p>
       <p
-        className={`mt-1 font-bold text-neutral-800 ${
+        className={`mt-1 pr-5 font-bold text-neutral-800 ${
           small ? "text-xs" : "text-lg"
         }`}
       >

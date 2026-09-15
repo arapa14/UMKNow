@@ -1,5 +1,13 @@
 // src/components/features/settings/StoreProfileTab.jsx
 import { useMemo, useState } from "react";
+import {
+  Store,
+  Link as LinkIcon,
+  Copy,
+  Check,
+  Building2,
+  BarChart3,
+} from "lucide-react";
 import { slugify } from "../../../services/settingsService";
 
 export default function StoreProfileTab({
@@ -24,6 +32,7 @@ export default function StoreProfileTab({
     is_active: store?.is_active ?? true,
   }));
   const [slugTouched, setSlugTouched] = useState(!!store?.slug);
+  const [copied, setCopied] = useState(false);
 
   // Handle semua perubahan lewat 1 fungsi
   const handleChange = (key) => (e) => {
@@ -49,6 +58,11 @@ export default function StoreProfileTab({
     setForm((f) => ({ ...f, [key]: value }));
   };
 
+  // Toggle switch untuk status toko — tetap mengubah field `is_active` yang sama
+  const handleToggleActive = () => {
+    setForm((f) => ({ ...f, is_active: !f.is_active }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await onSave(form);
@@ -62,7 +76,8 @@ export default function StoreProfileTab({
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(publicUrl);
-      alert("Link katalog disalin!");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch {
       alert("Gagal copy. Copy manual: " + publicUrl);
     }
@@ -70,8 +85,8 @@ export default function StoreProfileTab({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Info Dasar */}
-      <Section title="Informasi Dasar" icon="🏪">
+      {/* Informasi Dasar */}
+      <Section title="Informasi Dasar" Icon={Store}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Nama Usaha *">
             <input
@@ -151,22 +166,47 @@ export default function StoreProfileTab({
         </Field>
 
         {form.logo_url && (
-          <div className="flex items-center gap-3 rounded-xl bg-neutral-50 p-3">
+          <div className="flex items-center gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-3">
             <img
               src={form.logo_url}
               alt="Logo"
-              className="h-12 w-12 rounded-lg object-cover"
+              className="h-12 w-12 rounded-lg border border-slate-200 object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}
             />
-            <span className="text-xs text-neutral-500">Preview logo usaha</span>
+            <span className="text-xs text-slate-500">Preview logo usaha</span>
           </div>
         )}
+
+        {/* Status Toko — pindah ke dalam card yang sama, sebagai baris toggle */}
+        <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+          <div>
+            <p className="text-sm font-medium text-slate-800">Toko Aktif</p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Toko nonaktif akan disembunyikan dari katalog publik
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={form.is_active}
+            onClick={handleToggleActive}
+            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+              form.is_active ? "bg-[#0a3d3a]" : "bg-slate-300"
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                form.is_active ? "left-5.5" : "left-0.5"
+              }`}
+            />
+          </button>
+        </div>
       </Section>
 
       {/* Data Bisnis */}
-      <Section title="Data Bisnis (Opsional)" icon="📊">
+      <Section title="Data Bisnis (Opsional)" Icon={Building2}>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Field label="NIB (Nomor Induk Berusaha)">
             <input
@@ -217,49 +257,41 @@ export default function StoreProfileTab({
 
       {/* Katalog Publik */}
       {publicUrl && (
-        <Section title="Link Katalog Publik" icon="🔗">
-          <div className="flex flex-wrap items-center gap-2 rounded-xl bg-green-50 p-3">
-            <span className="break-all text-xs text-green-800">
+        <Section title="Link Katalog Publik" Icon={LinkIcon} highlight>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <code className="block flex-1 truncate rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-mono text-xs text-slate-700">
               {publicUrl}
-            </span>
+            </code>
             <button
               type="button"
               onClick={handleCopyLink}
-              className="ml-auto rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-green-700 shadow-sm ring-1 ring-green-200 hover:bg-green-100"
+              className="flex shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
             >
-              📋 Copy Link
+              {copied ? (
+                <>
+                  <Check size={16} className="text-emerald-600" />
+                  Tersalin
+                </>
+              ) : (
+                <>
+                  <Copy size={16} />
+                  Copy Link
+                </>
+              )}
             </button>
           </div>
-          <p className="mt-2 text-[11px] text-neutral-400">
+          <p className="mt-3 text-xs text-slate-400">
             Link ini bisa dibuka siapa saja tanpa login. Ganti slug kalau perlu.
           </p>
         </Section>
       )}
-
-      {/* Status */}
-      <Section title="Status Toko" icon="🟢">
-        <label className="flex items-center gap-3 rounded-xl bg-neutral-50 p-3">
-          <input
-            type="checkbox"
-            checked={form.is_active}
-            onChange={handleChange("is_active")}
-            className="h-4 w-4 rounded border-neutral-300 text-green-600"
-          />
-          <div>
-            <p className="text-sm font-medium text-neutral-700">Toko Aktif</p>
-            <p className="text-xs text-neutral-500">
-              Toko nonaktif akan disembunyikan dari katalog publik
-            </p>
-          </div>
-        </label>
-      </Section>
 
       {/* Action */}
       <div className="flex justify-end">
         <button
           type="submit"
           disabled={saving}
-          className="rounded-xl bg-green-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-700 disabled:opacity-60"
+          className="rounded-xl bg-[#0a3d3a] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#0a3d3a]/90 disabled:opacity-60"
         >
           {saving ? "Menyimpan..." : "Simpan Profil Usaha"}
         </button>
@@ -269,27 +301,38 @@ export default function StoreProfileTab({
         .input {
           width: 100%;
           border-radius: 0.75rem;
-          border: 1px solid #e5e5e5;
-          background: #fff;
-          padding: 0.55rem 0.75rem;
+          border: 1px solid #e2e8f0;
+          background: rgba(248, 250, 252, 0.5);
+          padding: 0.625rem 1rem;
           font-size: 0.875rem;
-          color: #262626;
+          color: #0f172a;
           outline: none;
+          transition: all 0.15s ease;
+        }
+        .input:hover {
+          border-color: #cbd5e1;
         }
         .input:focus {
-          border-color: #16a34a;
-          box-shadow: 0 0 0 3px rgba(22,163,74,0.15);
+          background: #fff;
+          border-color: #0a3d3a;
+          box-shadow: 0 0 0 3px rgba(10,61,58,0.12);
         }
       `}</style>
     </form>
   );
 }
 
-function Section({ title, icon, children }) {
+function Section({ title, Icon, children, highlight }) {
   return (
-    <div className="space-y-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-sm">
-      <h3 className="flex items-center gap-2 font-semibold text-neutral-800">
-        <span>{icon}</span>
+    <div
+      className={`space-y-4 rounded-2xl border p-6 shadow-[0_2px_10px_rgb(0,0,0,0.03)] ${
+        highlight
+          ? "border-slate-200 bg-slate-50"
+          : "border-slate-200 bg-white"
+      }`}
+    >
+      <h3 className="flex items-center gap-2 font-semibold text-slate-900">
+        {Icon && <Icon size={17} className="text-slate-500" strokeWidth={2} />}
         {title}
       </h3>
       {children}
@@ -300,12 +343,12 @@ function Section({ title, icon, children }) {
 function Field({ label, hint, children }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-xs font-medium text-neutral-600">
+      <span className="mb-1.5 block text-sm font-medium text-slate-700">
         {label}
       </span>
       {children}
       {hint && (
-        <span className="mt-1 block text-[10px] text-neutral-400">{hint}</span>
+        <span className="mt-1.5 block text-xs text-slate-400">{hint}</span>
       )}
     </label>
   );

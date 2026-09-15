@@ -1,12 +1,14 @@
 // src/components/features/bookkeeping/TopProducts.jsx
+import { Inbox } from "lucide-react";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
 export default function TopProducts({ products = [] }) {
   if (products.length === 0) {
     return (
-      <p className="py-6 text-center text-sm text-neutral-400">
-        Belum ada produk terjual
-      </p>
+      <div className="flex flex-col items-center justify-center rounded-lg border border-solid border-gray-200 bg-gray-50 py-8 text-center">
+        <Inbox className="mx-auto mb-3 h-10 w-10 text-gray-300" />
+        <p className="text-sm text-gray-500">Belum ada produk terjual</p>
+      </div>
     );
   }
 
@@ -18,7 +20,7 @@ export default function TopProducts({ products = [] }) {
         <li key={p.product_id ?? `idx-${i}`}>
           <div className="flex items-center gap-3">
             <span
-              className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                 i === 0
                   ? "bg-amber-100 text-amber-700"
                   : i === 1
