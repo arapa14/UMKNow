@@ -49,7 +49,7 @@ export function Navbar({
   }, []);
 
   return (
-    <header className="flex h-16 w-full items-center justify-between gap-6 border-b border-black/5 bg-white px-8">
+    <header className="flex h-16 w-full items-center justify-between gap-3 border-b border-black/5 bg-white pl-16 pr-4 sm:gap-6 md:pl-6 md:pr-6 lg:pl-8 lg:pr-8">
       <h1 className="text-[15px] font-semibold text-stone-900">{title}</h1>
 
       <div className="flex items-center gap-6">
