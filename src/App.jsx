@@ -12,6 +12,7 @@ import NotFound from "./pages/error/NotFound";
 import POS from "./pages/Pos";
 import Inventory from "./pages/Inventory";
 import Catalog from "./pages/Catalog";
+import PublicCatalog from "./pages/PublicCatalog";
 import Bookkeeping from "./pages/Bookkeeping";
 import Settings from "./pages/Settings";
 
@@ -22,6 +23,7 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/toko/:slug" element={<PublicCatalog />} />
 
       {/* ============ TESTING ROUTE (untuk dev) ============ */}
       <Route path="/testing" element={<Testing />} />

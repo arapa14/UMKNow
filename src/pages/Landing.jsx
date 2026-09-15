@@ -144,7 +144,7 @@ export default function Landing() {
                 <a className={`${button} ${amberButton} max-[600px]:w-full`} href="/register" id="hero-cta-primary">
                   Mulai gratis sekarang
                 </a>
-                <a className={`${button} border border-white/30 bg-white/12 text-white hover:bg-white/20 max-[600px]:w-full`} href="#cara-kerja" id="hero-cta-secondary">
+                <a className={`${button} border border-white/30 bg-white/12 text-white hover:bg-white/20 max-[600px]:w-full max-[600px]:mb-4`} href="#cara-kerja" id="hero-cta-secondary">
                   Lihat cara kerja ↓
                 </a>
               </div>

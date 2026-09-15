@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
+import AuthPhotoPanel from "../../components/auth/AuthPhotoPanel";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -55,82 +57,69 @@ export default function Login() {
 
   return (
     <div className="flex h-screen max-h-screen w-full overflow-hidden font-sans text-ink">
-      {/* ── PANEL KIRI: FOTO ── */}
-      <div className="relative hidden flex-1 overflow-hidden bg-teal-900 md:block">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1556740758-90de374c12ad?q=80&w=1600&auto=format&fit=crop')",
-          }}
-        />
-        <div className="absolute inset-0 bg-teal-900/35" />
-      </div>
-
-      {/* ── PANEL KANAN: FORM ── */}
-      <div className="flex flex-1 items-center justify-center overflow-y-auto bg-surface p-6 sm:p-12 lg:p-16">
+      {/* ── FORM (hijau) ── */}
+      <div className="flex flex-1 items-center justify-center overflow-y-auto bg-[linear-gradient(160deg,#073b3f_0%,#0b5d61_100%)] p-6 sm:p-12 lg:p-16">
         <div className="w-full max-w-125">
           <Link
             to="/"
-            className="mb-10 inline-block font-display text-2xl font-extrabold tracking-tight text-teal-900"
+            className="mb-10 inline-block font-display text-2xl font-extrabold tracking-tight text-white"
           >
             <span className="text-amber-500">UMK</span>Now
           </Link>
 
-          <div className="mb-8">
-            <h1 className="font-display text-2xl font-extrabold tracking-tight text-teal-900 sm:text-3xl">
-              Masuk ke Toko
-            </h1>
-            <p className="mt-2 text-sm text-muted">
-              Masukkan email dan kata sandi akun tokomu.
-            </p>
-          </div>
+          <h1 className="mb-12 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            Selamat Datang
+          </h1>
 
           {successMessage && (
-            <div className="mb-4 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+            <div className="mb-6 rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-3 text-sm text-emerald-200">
               {successMessage}
             </div>
           )}
 
           {error && (
-            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+            <div className="mb-6 rounded-lg border border-red-400/30 bg-red-400/10 p-3 text-sm text-red-200">
               {error}
             </div>
           )}
 
           <form className="flex flex-col gap-6" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col gap-2">
-              <label htmlFor="login-email" className="text-sm font-semibold text-ink">
+              <label htmlFor="login-email" className="text-sm font-semibold text-white">
                 Email
               </label>
-              <input
-                id="login-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                className="h-12 w-full rounded-lg border border-[#d8e2e2] px-4 text-base text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+              <div className="relative flex items-center">
+                <Mail size={18} strokeWidth={1.75} className="pointer-events-none absolute left-4 text-muted" />
+                <input
+                  id="login-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  className="h-12 w-full rounded-lg border border-white/10 bg-white pl-11 pr-4 text-base text-ink transition-all focus:border-[#2dd4bf] focus:outline-none focus:ring-3 focus:ring-[#2dd4bf]/25"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <label htmlFor="login-password" className="text-sm font-semibold text-ink">
+                <label htmlFor="login-password" className="text-sm font-semibold text-white">
                   Kata Sandi
                 </label>
-                <Link to="/not-found" className="text-xs font-medium text-teal-600 hover:underline">
+                <Link to="/not-found" className="text-xs font-medium text-amber-400 hover:underline">
                   Lupa kata sandi?
                 </Link>
               </div>
               <div className="relative flex items-center">
+                <Lock size={18} strokeWidth={1.75} className="pointer-events-none absolute left-4 text-muted" />
                 <input
                   id="login-password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
-                  className="h-12 w-full rounded-lg border border-[#d8e2e2] pl-4 pr-12 text-base text-ink transition-colors focus:border-teal-600 focus:outline-none focus:ring-3 focus:ring-teal-600/15"
+                  className="h-12 w-full rounded-lg border border-white/10 bg-white pl-11 pr-12 text-base text-ink transition-all focus:border-[#2dd4bf] focus:outline-none focus:ring-3 focus:ring-[#2dd4bf]/25"
                   value={formData.password}
                   onChange={handleChange}
                   required
@@ -142,7 +131,7 @@ export default function Login() {
                   aria-label={showPassword ? "Sembunyikan sandi" : "Tampilkan sandi"}
                   tabIndex={-1}
                 >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  {showPassword ? <EyeOff size={18} strokeWidth={1.75} /> : <Eye size={18} strokeWidth={1.75} />}
                 </button>
               </div>
             </div>
@@ -157,32 +146,17 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-8 text-center text-sm text-muted">
+          <div className="mt-8 text-center text-sm text-white/70">
             Belum punya akun?{" "}
-            <Link to="/register" className="ml-1 font-bold text-teal-600 hover:underline">
+            <Link to="/register" className="ml-1 font-bold text-amber-400 hover:underline">
               Daftar sekarang
             </Link>
           </div>
         </div>
       </div>
+
+      {/* ── FOTO ── */}
+      <AuthPhotoPanel imageUrl="https://images.pexels.com/photos/37234075/pexels-photo-37234075.jpeg?auto=compress&cs=tinysrgb&w=1920" />
     </div>
-  );
-}
-
-function EyeIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function EyeOffIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-      <line x1="1" y1="1" x2="23" y2="23" />
-    </svg>
   );
 }
