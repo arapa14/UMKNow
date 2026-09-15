@@ -1,60 +1,96 @@
 // src/components/features/dashboard/SalesChart.jsx
 import { formatCurrency } from "../../../utils/formatCurrency";
 
+const BRAND = "#0a3d3a";
+const BRAND_LIGHT = "#16a34a";
+
 export default function SalesChart({ data = [] }) {
   if (!data.length) {
     return (
-      <div className="flex h-64 items-center justify-center text-neutral-400 text-sm">
-        Belum ada data penjualan
+      <div className="flex h-64 flex-col items-center justify-center gap-2 text-neutral-400">
+        <svg
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="opacity-40"
+        >
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+        <span className="text-sm">Belum ada data penjualan</span>
       </div>
     );
   }
 
   const max = Math.max(...data.map((d) => d.total), 1);
-  const width = 100;
-  const height = 40;
+  const W = 100;
+  const H = 44;
+  const PAD_X = 2;
 
   const points = data.map((d, i) => {
-    const x = (i / (data.length - 1 || 1)) * width;
-    const y = height - (d.total / max) * height;
+    const x = PAD_X + (i / (data.length - 1 || 1)) * (W - PAD_X * 2);
+    const y = H - (d.total / max) * (H - 4);
     return { x, y, ...d };
   });
 
   const pathLine = points
-    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x},${p.y}`)
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(2)},${p.y.toFixed(2)}`)
     .join(" ");
 
-  const pathArea = `${pathLine} L ${width},${height} L 0,${height} Z`;
+  const pathArea = `${pathLine} L ${W - PAD_X},${H} L ${PAD_X},${H} Z`;
+
+  // Label tanggal — hanya tampilkan max 6 label agar tidak berdempetan
+  const step = Math.max(1, Math.floor(data.length / 6));
+  const labelIndices = new Set(
+    data.map((_, i) => i).filter((i) => i % step === 0 || i === data.length - 1)
+  );
 
   return (
     <div className="w-full">
       <svg
-        viewBox={`0 0 ${width} ${height}`}
+        viewBox={`0 0 ${W} ${H}`}
         preserveAspectRatio="none"
         className="h-48 w-full"
       >
         <defs>
-          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#16a34a" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#16a34a" stopOpacity="0" />
+          <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={BRAND_LIGHT} stopOpacity="0.18" />
+            <stop offset="100%" stopColor={BRAND_LIGHT} stopOpacity="0.01" />
           </linearGradient>
         </defs>
-        <path d={pathArea} fill="url(#areaGrad)" />
+
+        {/* Area fill */}
+        <path d={pathArea} fill="url(#chartAreaGrad)" />
+
+        {/* Garis utama — lebih tebal & brand color */}
         <path
           d={pathLine}
           fill="none"
-          stroke="#16a34a"
-          strokeWidth="0.6"
+          stroke={BRAND}
+          strokeWidth="1.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
+
+        {/* Titik data */}
         {points.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r="0.6" fill="#16a34a" />
+          <g key={i}>
+            {/* Lingkaran luar (halo) */}
+            <circle cx={p.x} cy={p.y} r="1.8" fill="white" />
+            {/* Lingkaran dalam */}
+            <circle cx={p.x} cy={p.y} r="1" fill={BRAND} />
+          </g>
         ))}
       </svg>
 
+      {/* Label tanggal */}
       <div className="mt-2 flex justify-between text-[10px] text-neutral-400">
         {data.map((d, i) => {
+          if (!labelIndices.has(i)) return <span key={i} />;
           const dt = new Date(d.date);
           return (
             <span key={i}>
@@ -67,10 +103,16 @@ export default function SalesChart({ data = [] }) {
         })}
       </div>
 
-      <div className="mt-3 text-right text-xs text-neutral-500">
-        Total:{" "}
-        <span className="font-semibold text-neutral-700">
-          {formatCurrency(data.reduce((s, d) => s + d.total, 0))}
+      {/* Total */}
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-xs text-neutral-400">
+          {data.length} periode
+        </span>
+        <span className="text-xs text-neutral-500">
+          Total:{" "}
+          <span className="font-semibold text-neutral-800">
+            {formatCurrency(data.reduce((s, d) => s + d.total, 0))}
+          </span>
         </span>
       </div>
     </div>
